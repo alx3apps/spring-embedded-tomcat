@@ -1,5 +1,8 @@
 package ru.concerteza.etomcat;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +14,11 @@ import java.io.IOException;
  * Date: 8/28/11
  */
 public class TestServlet extends HttpServlet {
-    public static final String CONTENT = "ETomcat is running";
+    public static final String CONTENT = "ru.concerteza.etomcat.EmbeddedSpringContext";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getOutputStream().write(CONTENT.getBytes("UTF-8"));
+        ApplicationContext context = (ApplicationContext) req.getSession().getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        resp.getOutputStream().write(context.getClass().getName().getBytes("UTF-8"));
     }
 }

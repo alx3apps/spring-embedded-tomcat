@@ -38,10 +38,11 @@ class EmbeddedManager extends ManagerBase {
 
     @Override
     public Session createSession(String sessionId) {
-        if ((maxActiveSessions >= 0) && (sessions.size() >= maxActiveSessions)) {
-            rejectedSessions.addAndGet(1);
-            throw new IllegalStateException(sm.getString("standardManager.createSession.ise"));
-        }
+        // todo
+//        if ((maxActiveSessions >= 0) && (sessions.size() >= maxActiveSessions)) {
+//            rejectedSessions.addAndGet(1);
+//            throw new IllegalStateException(sm.getString("standardManager.createSession.ise"));
+//        }
         return super.createSession(sessionId);
     }
 

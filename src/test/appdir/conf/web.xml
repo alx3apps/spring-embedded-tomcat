@@ -5,12 +5,26 @@
             http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
     <servlet>
-        <servlet-name>test</servlet-name>
+        <servlet-name>testServlet</servlet-name>
         <servlet-class>ru.concerteza.etomcat.TestServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>test</servlet-name>
+        <servlet-name>testServlet</servlet-name>
         <url-pattern>/etomcat_test</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>ru.concerteza.etomcat.TestListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>testFilter</filter-name>
+        <filter-class>ru.concerteza.etomcat.TestFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>testFilter</filter-name>
+        <url-pattern>/etomcat_test</url-pattern>
+    </filter-mapping>
 </web-app>

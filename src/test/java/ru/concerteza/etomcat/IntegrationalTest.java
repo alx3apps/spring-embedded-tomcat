@@ -50,7 +50,10 @@ public class IntegrationalTest {
         client.executeMethod(method);
         byte[] responseBody = method.getResponseBody();
         String content = new String(responseBody, "UTF-8");
-        Assert.assertEquals("Not expected content", TestServlet.CONTENT, content);
+        Assert.assertEquals("Servlet fail", TestServlet.CONTENT, content);
+        Assert.assertTrue("Listener fail", TestListener.initialized);
+        Assert.assertTrue("Filter init fail", TestFilter.initialized);
+        Assert.assertTrue("Filter fail", TestFilter.filtered);
     }
 
     private void setupSsl() throws NoSuchProviderException, KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, KeyManagementException {

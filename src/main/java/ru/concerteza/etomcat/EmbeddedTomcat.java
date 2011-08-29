@@ -41,17 +41,17 @@ public class EmbeddedTomcat {
     private String connectorSSLKeystorePass;
     @Value("${etomcat.ssl.keyAlias}")
     private String connectorSSLKeyAlias;
-//    @Value("${etomcat.ssl.keyPass}")
-//    private String connectorSSLKeyPass;
     // FS
-    @Value("${etomcat.useFsResources:false}")
-    private boolean useFsResources;
     @Value("${etomcat.confDir:conf}")
     private String confDir;
     @Value("${etomcat.webXmlFile:web.xml}")
     private String webXmlPath;
     @Value("${etomcat.workDir:work}")
     private String workDir;
+    @Value("${etomcat.useFsResources:false}")
+    private boolean useFsResources;
+    @Value("${etomcat.staticDir:static}")
+    private String docBaseDir;
 
     // Engine
     // http://tomcat.apache.org/tomcat-6.0-doc/config/engine.html
@@ -72,9 +72,6 @@ public class EmbeddedTomcat {
     // http://tomcat.apache.org/tomcat-6.0-doc/config/context.html
     @Value("${etomcat.context.cookies:false}")
     private boolean contextCookies;
-    // todo
-    @Value("${etomcat.context.docBase:}")
-    private String contextDocBase;
     @Value("${etomcat.context.cacheMaxSize_kb:10240}")
     private int contextCacheMaxSize;
     @Value("${etomcat.context.cacheObjectMaxSize_kb:512}")
@@ -245,10 +242,10 @@ public class EmbeddedTomcat {
 
 
 
-	public void start(File baseDir) throws Exception {
+	public Embedded start(File baseDir) throws Exception {
         logger.info("Starting Embedded Tomcat");
         // resolving paths
-        Paths paths = new Paths(baseDir, confDir, workDir, webXmlPath, connectorSSLKeystoreFile, connectorSSLTruststoreFile, connectorSSLCrlFile);
+        Paths paths = new Paths(baseDir, confDir, workDir, docBaseDir, webXmlPath, connectorSSLKeystoreFile, connectorSSLTruststoreFile, connectorSSLCrlFile);
         // creating
 		Embedded embedded = new Embedded();
 		Engine engine = createEngine(paths);
@@ -270,10 +267,7 @@ public class EmbeddedTomcat {
         // starting
         executor.start();
         embedded.start();
-	}
-
-	public void stop() {
-		// todo
+        return embedded;
 	}
 
     private Engine createEngine(Paths paths) {
@@ -310,7 +304,7 @@ public class EmbeddedTomcat {
         context.setConfigured(true);
 
         context.setCookies(contextCookies);
-        context.setDocBase(contextDocBase);
+        context.setDocBase(paths.getDocBaseDir());
         context.setCacheMaxSize(contextCacheMaxSize);
         context.setCacheObjectMaxSize(contextCacheObjectMaxSize);
         context.setCacheTTL(contextCacheTTL);
@@ -436,15 +430,17 @@ public class EmbeddedTomcat {
         private final String baseDir;
         private final String confDir;
         private final String workDir;
+        private final String docBaseDir;
         private final String webXmlFile;
         private final String keystoreFile;
         private final String truststoreFile;
         private final String crlFile;
 
-        private Paths(File baseDir, String confDir, String workDir, String webXmlFile, String keystoreFile, String truststoreFile, String crlFile) {
+        private Paths(File baseDir, String confDir, String workDir, String docBaseDir, String webXmlFile, String keystoreFile, String truststoreFile, String crlFile) {
             this.baseDir = baseDir.getAbsolutePath();
             this.confDir = this.baseDir + separator + confDir;
             this.workDir = this.baseDir + separator + workDir;
+            this.docBaseDir = this.baseDir + separator + docBaseDir;
             this.webXmlFile = this.confDir + separator + webXmlFile;
             this.keystoreFile = this.confDir + separator + keystoreFile;
             this.truststoreFile = this.confDir + separator + truststoreFile;
@@ -461,6 +457,10 @@ public class EmbeddedTomcat {
 
         public String getWorkDir() {
             return workDir;
+        }
+
+        public String getDocBaseDir() {
+            return docBaseDir;
         }
 
         public String getWebXmlFile() {
@@ -486,6 +486,7 @@ public class EmbeddedTomcat {
             sb.append("{baseDir='").append(baseDir).append('\'');
             sb.append(", confDir='").append(confDir).append('\'');
             sb.append(", workDir='").append(workDir).append('\'');
+            sb.append(", docBaseDir='").append(docBaseDir).append('\'');
             sb.append(", webXmlFile='").append(webXmlFile).append('\'');
             sb.append(", keystoreFile='").append(keystoreFile).append('\'');
             sb.append(", truststoreFile='").append(truststoreFile).append('\'');

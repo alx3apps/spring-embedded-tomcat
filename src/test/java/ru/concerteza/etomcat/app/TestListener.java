@@ -1,4 +1,4 @@
-package ru.concerteza.etomcat;
+package ru.concerteza.etomcat.app;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -8,7 +8,7 @@ import javax.servlet.ServletContextListener;
  * Date: 8/29/11
  */
 public class TestListener implements ServletContextListener {
-    static boolean initialized = false;
+    private static boolean initialized = false;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -18,5 +18,9 @@ public class TestListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         // this line is initially left blank
+    }
+
+    public static boolean isInitialized() {
+        return initialized;
     }
 }

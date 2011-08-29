@@ -1,4 +1,4 @@
-package ru.concerteza.etomcat;
+package ru.concerteza.etomcat.app;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.io.IOException;
  * Date: 8/29/11
  */
 public class TestFilter implements Filter {
-    static boolean initialized;
-    static boolean filtered;
+    private static boolean initialized;
+    private static boolean filtered;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,5 +25,13 @@ public class TestFilter implements Filter {
     @Override
     public void destroy() {
         // this line is initially left blank
+    }
+
+    public static boolean isInitialized() {
+        return initialized;
+    }
+
+    public static boolean isFiltered() {
+        return filtered;
     }
 }

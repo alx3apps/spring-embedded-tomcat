@@ -1,4 +1,4 @@
-package ru.concerteza.etomcat;
+package ru.concerteza.etomcat.app;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;

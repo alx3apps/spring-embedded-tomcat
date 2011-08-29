@@ -11,7 +11,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:/etomcat.properties</value>
+                <value>file:src/test/appdir/conf/etomcat.properties</value>
             </list>
         </property>
     </bean>

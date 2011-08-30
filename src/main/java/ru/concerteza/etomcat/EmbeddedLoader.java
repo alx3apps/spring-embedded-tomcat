@@ -17,7 +17,7 @@ class EmbeddedLoader implements Loader {
 
     @Override
     public ClassLoader getClassLoader() {
-        return Thread.currentThread().getContextClassLoader();
+        return getClass().getClassLoader();
     }
 
     @Override

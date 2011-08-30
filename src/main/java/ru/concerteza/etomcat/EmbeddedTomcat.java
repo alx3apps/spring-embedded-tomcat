@@ -2,6 +2,7 @@ package ru.concerteza.etomcat;
 
 import org.apache.catalina.*;
 import org.apache.catalina.connector.Connector;
+import org.apache.catalina.connector.CoyoteAdapter;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardEngine;
 import org.apache.catalina.core.StandardHost;
@@ -241,16 +242,15 @@ public class EmbeddedTomcat {
     private int executorThreadPriority;
 
 
-
-	public Embedded start(File baseDir) throws Exception {
+	public EmbeddedHandler start(File baseDir) throws Exception {
         logger.info("Starting Embedded Tomcat");
         // resolving paths
         Paths paths = new Paths(baseDir, confDir, workDir, docBaseDir, webXmlPath, connectorSSLKeystoreFile, connectorSSLTruststoreFile, connectorSSLCrlFile);
         // creating
 		Embedded embedded = new Embedded();
-		Engine engine = createEngine(paths);
+		StandardEngine engine = createEngine(paths);
         Host host = createHost(paths);
-        Context context = createContext(paths);
+        StandardContext context = createContext(paths);
         Connector connector = createConnector(paths);
         Executor executor = createExecutor();
         // tomcat binding
@@ -267,17 +267,17 @@ public class EmbeddedTomcat {
         // starting
         executor.start();
         embedded.start();
-        return embedded;
+        return new EmbeddedHandler(embedded, executor);
 	}
 
-    private Engine createEngine(Paths paths) {
+    private StandardEngine createEngine(Paths paths) {
         StandardEngine engine = new StandardEngine();
         engine.setName(engineName);
         engine.setBaseDir(paths.getBaseDir());
         return engine;
     }
 
-    private Host createHost(Paths paths) {
+    private StandardHost createHost(Paths paths) {
         StandardHost host = new StandardHost();
         host.setAutoDeploy(false);
         host.setDeployOnStartup(false);
@@ -291,7 +291,7 @@ public class EmbeddedTomcat {
         return host;
     }
 
-    private Context createContext(Paths paths) {
+    private StandardContext createContext(Paths paths) {
         StandardContext context = new StandardContext();
         context.setAltDDName(paths.getWebXmlFile());
         context.setPath("");
@@ -302,6 +302,7 @@ public class EmbeddedTomcat {
         context.setUnpackWAR(false);
         context.setUseNaming(false);
         context.setConfigured(true);
+        context.setIgnoreAnnotations(true);
 
         context.setCookies(contextCookies);
         context.setDocBase(paths.getDocBaseDir());
@@ -323,7 +324,7 @@ public class EmbeddedTomcat {
         return context;
     }
 
-    private Manager createManager() {
+    private EmbeddedManager createManager() {
         EmbeddedManager manager = new EmbeddedManager();
         manager.setMaxActiveSessions(contextMaxActiveSessions);
         return manager;
@@ -353,7 +354,6 @@ public class EmbeddedTomcat {
         proto.setServer(connectorServer);
         proto.setSocketBuffer(connectorSocketBuffer);
         proto.setTcpNoDelay(connectorTcpNoDelay);
-
 
         proto.setUseSendfile(connectorUseSendfile);
         // todo check
@@ -396,7 +396,6 @@ public class EmbeddedTomcat {
         proto.setKeystoreType(connectorSSLKeystoreType);
         proto.setProperty("keystoreProvider", connectorSSLKeystoreProvider);
         proto.setKeyAlias(connectorSSLKeyAlias);
-//        proto.setKeypass(connectorSSLKeyPass);
         proto.setAlgorithm(connectorSSLAlgorithm);
         if(connectorSSLClientAuth) {
             proto.setClientAuth("true");

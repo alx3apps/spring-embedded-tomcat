@@ -20,7 +20,7 @@ import java.io.InputStream;
  * User: alexey
  * Date: 8/28/11
  */
-public class EmbeddedContextConfig implements LifecycleListener {
+class EmbeddedContextConfig implements LifecycleListener {
     private final String webXmlFile;
 
     public EmbeddedContextConfig(String webXmlFile) {

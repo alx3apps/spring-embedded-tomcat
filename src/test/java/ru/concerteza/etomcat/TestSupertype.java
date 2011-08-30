@@ -25,7 +25,7 @@ import static java.io.File.separator;
 public abstract class TestSupertype {
 
     private AbstractApplicationContext ctx;
-    private Embedded embedded;
+    private EmbeddedHandler embedded;
 
     @Before
     public void setUp() throws Exception {

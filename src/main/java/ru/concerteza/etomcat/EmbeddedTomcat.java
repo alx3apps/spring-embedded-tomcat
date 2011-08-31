@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.io.File.separator;
 
@@ -29,13 +30,16 @@ import static java.io.File.separator;
 public class EmbeddedTomcat {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private boolean started = false;
+    private Embedded embedded;
+    private Executor executor;
+
     @Resource
     private ApplicationContext springContext;
 
     // general
     @Value("${etomcat.port}")
     private int port;
-
     @Value("${etomcat.ssl.keystoreFile}")
     private String connectorSSLKeystoreFile;
     @Value("${etomcat.ssl.keystorePass}")
@@ -61,9 +65,6 @@ public class EmbeddedTomcat {
 
     // Host
     // http://tomcat.apache.org/tomcat-6.0-doc/config/host.html
-    // todo
-    @Value("${etomcat.host.appBase:}")
-    private String hostAppBase;
     @Value("${etomcat.host.name:localhost}")
     private String hostName;
     @Value("${etomcat.host.errorReportValveClass:org.apache.catalina.valves.ErrorReportValve}")
@@ -94,11 +95,8 @@ public class EmbeddedTomcat {
     private int connectorMaxPostSize;
     @Value("${etomcat.connector.maxSavePostSize_bytes:4096}")
     private int connectorMaxSavePostSize;
-//    @Value("${etomcat.connector.SSLEnabled:true}")
-//    private boolean connectorSSLEnabled;
     @Value("${etomcat.connector.acceptCount:1000}")
     private int connectorAcceptCount;
-    // todo testme
     @Value("${etomcat.connector.compressableMimeType:text/html,text/xml,text/plain}")
     private String connectorCompressableMimeType;
     @Value("${etomcat.connector.compression:off}")
@@ -107,11 +105,6 @@ public class EmbeddedTomcat {
     private int connectorCompressionMinSize;
     @Value("${etomcat.connector.noCompressionUserAgents:}")
     private String connectorNoCompressionUserAgents;
-    //
-    @Value("${etomcat.connector.connectionTimeout_millis:60000}")
-    private int connectorConnectionTimeout;
-    @Value("${etomcat.connector.keepAliveTimeout_millis:60000}")
-    private int connectorKeepAliveTimeout;
     @Value("${etomcat.connector.disableUploadTimeout:false}")
     private boolean connectorDisableUploadTimeout;
     @Value("${etomcat.connector.maxHttpHeaderSize_bytes:8192}")
@@ -122,14 +115,11 @@ public class EmbeddedTomcat {
     private String connectorServer;
     @Value("${etomcat.connector.socketBuffer_bytes:9000}")
     private int connectorSocketBuffer;
-    @Value("${etomcat.connector.tcpNoDelay:true}")
-    private boolean connectorTcpNoDelay;
     // NIO options
     @Value("${etomcat.connector.nio.useSendfile:true}")
     private boolean connectorUseSendfile;
     @Value("${etomcat.connector.nio.acceptorThreadCount:2}")
     private int connectorAcceptorThreadCount;
-    // todo
     @Value("${etomcat.connector.nio.acceptorThreadPriority:5}")
     private int connectorAcceptorThreadPriority;
     @Value("${etomcat.connector.nio.pollerThreadCount:2}")
@@ -138,10 +128,6 @@ public class EmbeddedTomcat {
     private int connectorPollerThreadPriority;
     @Value("${etomcat.connector.nio.selectorTimeout_millis:1000}")
     private int connectorSelectorTimeout;
-    @Value("${etomcat.connector.nio.useComet:false}")
-    private boolean connectorUseComet;
-    @Value("${etomcat.connector.nio.processorCache:200}")
-    private int connectorProcessorCache;
     @Value("${etomcat.connector.nio.selectorPool.oomParachute:1048576}")
     private int connectorOomParachute;
     // socket
@@ -155,7 +141,6 @@ public class EmbeddedTomcat {
     private int connectorSocketAppReadBufSize;
     @Value("${etomcat.connector.nio.socket.appWriteBufSize_bytes:8192}")
     private int connectorSocketAppWriteBufSize;
-    // todo testme
     @Value("${etomcat.connector.nio.socket.bufferPool:500}")
     private int connectorSocketBufferPool;
     @Value("${etomcat.connector.nio.socket.bufferPoolSize_bytes:104857600}")
@@ -166,7 +151,6 @@ public class EmbeddedTomcat {
     private int connectorSocketKeyCache;
     @Value("${etomcat.connector.nio.socket.eventCache:500}")
     private int connectorSocketEventCache;
-    // todo
     @Value("${etomcat.connector.nio.socket.tcpNoDelay:false}")
     private boolean connectorSocketTcpNoDelay;
     @Value("${etomcat.connector.nio.socket.soKeepAlive:false}")
@@ -242,17 +226,19 @@ public class EmbeddedTomcat {
     private int executorThreadPriority;
 
 
-	public EmbeddedHandler start(File baseDir) throws Exception {
-        logger.info("Starting Embedded Tomcat");
+    public synchronized void start(File baseDir) {
+        if(started) throw new RuntimeException("Etomcat is already started");
+        logger.info("Starting Embedded Tomcat...");
         // resolving paths
         Paths paths = new Paths(baseDir, confDir, workDir, docBaseDir, webXmlPath, connectorSSLKeystoreFile, connectorSSLTruststoreFile, connectorSSLCrlFile);
+        logger.debug("Etomcat paths resolved: {}", paths);
         // creating
-		Embedded embedded = new Embedded();
-		StandardEngine engine = createEngine(paths);
+        embedded = new Embedded();
+        executor = createExecutor();
+        StandardEngine engine = createEngine(paths);
         Host host = createHost(paths);
         StandardContext context = createContext(paths);
         Connector connector = createConnector(paths);
-        Executor executor = createExecutor();
         // tomcat binding
         embedded.addEngine(engine);
         engine.setDefaultHost(host.getName());
@@ -265,10 +251,33 @@ public class EmbeddedTomcat {
         EmbeddedSpringContext embeddedSpringContext = (EmbeddedSpringContext) springContext;
         embeddedSpringContext.bind(context.getServletContext());
         // starting
-        executor.start();
-        embedded.start();
-        return new EmbeddedHandler(embedded, executor);
-	}
+        try {
+            executor.start();
+            embedded.start();
+            logger.info("Embedded Tomcat started successfully");
+        } catch (LifecycleException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public synchronized void stop() {
+        if(started) {
+            doStop();
+        }
+    }
+
+    private void doStop() {
+        try {
+            embedded.stop();
+        } catch (Exception e) {
+            logger.warn("Exception occured on stopping etomcat", e);
+        }
+        try {
+            executor.stop();
+        } catch (Exception e) {
+            logger.warn("Exception occured on stopping etomcat executor", e);
+        }
+    }
 
     private StandardEngine createEngine(Paths paths) {
         StandardEngine engine = new StandardEngine();
@@ -284,7 +293,7 @@ public class EmbeddedTomcat {
         host.setDeployXML(false);
         host.setUnpackWARs(false);
 
-        host.setAppBase(hostAppBase);
+        host.setAppBase("NOT_SUPPORTED_SETTING");
         host.setName(hostName);
         host.setErrorReportValveClass(hostErrorReportValveClass);
         host.setWorkDir(paths.getWorkDir());
@@ -330,8 +339,13 @@ public class EmbeddedTomcat {
         return manager;
     }
 
-    private Connector createConnector(Paths paths) throws Exception {
-        Connector con = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+    private Connector createConnector(Paths paths) {
+        Connector con = null;
+        try {
+            con = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         Http11NioProtocol proto = (Http11NioProtocol) con.getProtocolHandler();
         con.setEnableLookups(connectorEnableLookups);
         con.setMaxPostSize(connectorMaxPostSize);
@@ -345,26 +359,20 @@ public class EmbeddedTomcat {
         proto.setCompression(connectorCompression);
         proto.setCompressionMinSize(connectorCompressionMinSize);
         if(!connectorNoCompressionUserAgents.isEmpty()) proto.setNoCompressionUserAgents(connectorNoCompressionUserAgents);
-        con.setProperty("connectionTimeout", Integer.toString(connectorConnectionTimeout));
-        con.setProperty("keepAliveTimeout", Integer.toString(connectorKeepAliveTimeout));
         proto.setDisableUploadTimeout(connectorDisableUploadTimeout);
         proto.setMaxHttpHeaderSize(connectorMaxHttpHeaderSize);
         proto.setMaxKeepAliveRequests(connectorMaxKeepAliveRequests);
         con.setPort(port);
         proto.setServer(connectorServer);
         proto.setSocketBuffer(connectorSocketBuffer);
-        proto.setTcpNoDelay(connectorTcpNoDelay);
 
         proto.setUseSendfile(connectorUseSendfile);
-        // todo check
         con.setProperty("acceptorThreadCount", Integer.toString(connectorAcceptorThreadCount));
         proto.setAcceptorThreadPriority(connectorAcceptorThreadPriority);
         proto.setPollerThreadCount(connectorPollerThreadCount);
         proto.setPollerThreadPriority(connectorPollerThreadPriority);
         proto.setSelectorTimeout(connectorSelectorTimeout);
-        // todo check
-        con.setProperty("useComet", Boolean.toString(connectorUseComet));
-        proto.setProcessorCache(connectorProcessorCache);
+        proto.setOomParachute(connectorOomParachute);
         proto.setUseExecutor(true);
         con.setProperty("socket.directBuffer", Boolean.toString(connectorSocketDirectBuffer));
         con.setProperty("socket.rxBufSize", Integer.toString(connectorSocketRxBufSize));

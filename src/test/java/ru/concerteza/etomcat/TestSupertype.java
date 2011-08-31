@@ -25,7 +25,6 @@ import static java.io.File.separator;
 public abstract class TestSupertype {
 
     private AbstractApplicationContext ctx;
-    private EmbeddedHandler embedded;
 
     @Before
     public void setUp() throws Exception {
@@ -33,12 +32,12 @@ public abstract class TestSupertype {
         File confDir = new File(baseDir, "conf");
         File ctxFile = new File(confDir, "etomcat-test-ctx.xml");
         ctx = new EmbeddedSpringContext("file:" + ctxFile.getPath());
-        embedded = ctx.getBean(EmbeddedTomcat.class).start(baseDir);
+        ctx.getBean(EmbeddedTomcat.class).start(baseDir);
     }
 
     @After
     public void tearDown() throws LifecycleException {
-        embedded.stop();
+        ctx.getBean(EmbeddedTomcat.class).stop();
         ctx.close();
     }
 

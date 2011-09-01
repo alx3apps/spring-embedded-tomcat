@@ -3,7 +3,6 @@ package ru.concerteza.etomcat;
 import org.apache.catalina.Container;
 import org.apache.catalina.Loader;
 import org.apache.catalina.core.StandardContext;
-import org.apache.catalina.loader.StandardClassLoader;
 
 import java.beans.PropertyChangeListener;
 
@@ -31,6 +30,13 @@ class EmbeddedLoader implements Loader {
     }
 
     @Override
+    public String getInfo() {
+        return getClass().getName();
+    }
+
+    // unimplemented methods futher
+
+    @Override
     public void backgroundProcess() {
         // this method is initially left blank
     }
@@ -43,11 +49,6 @@ class EmbeddedLoader implements Loader {
     @Override
     public void setDelegate(boolean delegate) {
         // this method is initially left blank
-    }
-
-    @Override
-    public String getInfo() {
-        return "Embedded Loader/1.0";
     }
 
     @Override

@@ -1,13 +1,11 @@
 package ru.concerteza.etomcat;
 
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.startup.Embedded;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 import org.jsslutils.extra.apachehttpclient.SslContextedSecureProtocolSocketFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import javax.net.ssl.*;
@@ -37,7 +35,6 @@ public abstract class TestSupertype {
 
     @After
     public void tearDown() throws LifecycleException {
-        ctx.getBean(EmbeddedTomcat.class).stop();
         ctx.close();
     }
 

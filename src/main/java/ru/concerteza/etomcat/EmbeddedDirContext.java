@@ -5,7 +5,6 @@ import org.apache.naming.NamingContextBindingsEnumeration;
 import javax.naming.*;
 import javax.naming.directory.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 
 /**
@@ -13,6 +12,41 @@ import java.util.Hashtable;
  * Date: 8/27/11
  */
 class EmbeddedDirContext implements DirContext{
+
+    // implementation type is not important for zero-length enum
+    private final NamingEnumeration EMPTY_NE = new NamingContextBindingsEnumeration(new ArrayList().iterator(), this);
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
+        return EMPTY_NE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public NamingEnumeration<NameClassPair> list(String name) throws NamingException {
+        return EMPTY_NE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public NamingEnumeration<Binding> listBindings(Name name) throws NamingException {
+        return EMPTY_NE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public NamingEnumeration<Binding> listBindings(String name) throws NamingException {
+        return EMPTY_NE;
+    }
+
+    // unimplemented methods futher
+
+    @Override
+    public Hashtable<?, ?> getEnvironment() throws NamingException {
+        return null;
+    }
+
     @Override
     public Attributes getAttributes(Name name) throws NamingException {
         return null;
@@ -35,42 +69,42 @@ class EmbeddedDirContext implements DirContext{
 
     @Override
     public void modifyAttributes(Name name, int mod_op, Attributes attrs) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void modifyAttributes(String name, int mod_op, Attributes attrs) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void modifyAttributes(Name name, ModificationItem[] mods) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void modifyAttributes(String name, ModificationItem[] mods) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void bind(Name name, Object obj, Attributes attrs) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void bind(String name, Object obj, Attributes attrs) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void rebind(Name name, Object obj, Attributes attrs) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void rebind(String name, Object obj, Attributes attrs) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
@@ -155,73 +189,52 @@ class EmbeddedDirContext implements DirContext{
 
     @Override
     public void bind(Name name, Object obj) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void bind(String name, Object obj) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void rebind(Name name, Object obj) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void rebind(String name, Object obj) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void unbind(Name name) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void unbind(String name) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void rename(Name oldName, Name newName) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void rename(String oldName, String newName) throws NamingException {
-      
-    }
-
-    @Override
-    public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
-        return null;
-    }
-
-    @Override
-    public NamingEnumeration<NameClassPair> list(String name) throws NamingException {
-        return null;
-    }
-
-    @Override
-    public NamingEnumeration<Binding> listBindings(Name name) throws NamingException {
-        return null;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public NamingEnumeration<Binding> listBindings(String name) throws NamingException {
-        return new NamingContextBindingsEnumeration(new ArrayList().iterator(), this);
+        // this method is initially left blank
     }
 
     @Override
     public void destroySubcontext(Name name) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
     public void destroySubcontext(String name) throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override
@@ -275,13 +288,8 @@ class EmbeddedDirContext implements DirContext{
     }
 
     @Override
-    public Hashtable<?, ?> getEnvironment() throws NamingException {
-        return null;
-    }
-
-    @Override
     public void close() throws NamingException {
-      
+        // this method is initially left blank
     }
 
     @Override

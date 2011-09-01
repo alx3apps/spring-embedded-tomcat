@@ -1,6 +1,8 @@
 package ru.concerteza.etomcat;
 
 import org.springframework.beans.BeansException;
+import org.springframework.context.support.AbstractXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -10,12 +12,14 @@ import javax.servlet.ServletContext;
  * User: alexey
  * Date: 7/24/11
  */
-class EmbeddedSpringContext extends FileSystemXmlApplicationContext implements WebApplicationContext {
+public class EmbeddedSpringContext extends AbstractXmlApplicationContext implements WebApplicationContext {
 
     private ServletContext servletContext;
 
     public EmbeddedSpringContext(String configLocation) throws BeansException {
-        super(configLocation);
+        super(null);
+        setConfigLocations(new String[]{configLocation});
+        refresh();
     }
 
     @Override

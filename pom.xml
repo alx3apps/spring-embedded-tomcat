@@ -10,13 +10,6 @@
     <name>Embedded Servlet Container</name>
 
     <dependencies>
-        <!--&lt;!&ndash; commons &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>commons-io</groupId>-->
-        <!--<artifactId>commons-io</artifactId>-->
-        <!--<version>1.4</version>-->
-        <!--</dependency>-->
-        <!-- tomcat -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>coyote</artifactId>

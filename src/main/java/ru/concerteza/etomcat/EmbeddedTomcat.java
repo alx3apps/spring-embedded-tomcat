@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.net.ssl.KeyManagerFactory;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -57,11 +60,8 @@ public class EmbeddedTomcat {
     private boolean useFsResources;
     @Value("${etomcat.staticDir:static}")
     private String docBaseDir;
-
-    // Engine
-    // http://tomcat.apache.org/tomcat-6.0-doc/config/engine.html
-    @Value("${etomcat.engine.defaultHost:etomcat-engine}")
-    private String engineName;
+    @Value("${etomcat.stopPreDestroy:true}")
+    private boolean stopPreDestroy;
 
     // Host
     // http://tomcat.apache.org/tomcat-6.0-doc/config/host.html
@@ -84,7 +84,7 @@ public class EmbeddedTomcat {
     private boolean contextCachingAllowed;
     @Value("${etomcat.context.unloadDelay_ms:2000}")
     private int contextUnloadDelay;
-    @Value("${etomcat.context.contextMaxActiveSessions:0}")
+    @Value("${etomcat.context.contextMaxActiveSessions:-1}")
     private int contextMaxActiveSessions;
 
     // Connector
@@ -181,7 +181,7 @@ public class EmbeddedTomcat {
     @Value("${etomcat.connector.nio.selectorPool.maxSpareSelectors:-1}")
     private int connectorMPMaxSpareSelectors;
     // SSL
-    @Value("${etomcat.connector.ssl.algorithm:SunX509}")
+    @Value("${etomcat.connector.ssl.algorithm:}")
     private String connectorSSLAlgorithm;
     @Value("${etomcat.connector.ssl.clientAuth:false}")
     private boolean connectorSSLClientAuth;
@@ -218,16 +218,33 @@ public class EmbeddedTomcat {
 	private String executorNamePrefix;
     @Value("${etomcat.executor.maxThreads:200}")
 	private int executorMaxThreads;
-    @Value("${etomcat.executor.minSpareThreads:10}")
+    @Value("${etomcat.executor.minSpareThreads:2}")
 	private int executorMinSpareThreads;
     @Value("${etomcat.executor.maxIdleTime_ms:600000}")
 	private int executorMaxIdleTime;
     @Value("${etomcat.executor.threadPriority:5}")
     private int executorThreadPriority;
 
+    @PreDestroy
+    private void preDestroy() {
+        if(started) doStop();
+    }
 
     public synchronized void start(File baseDir) {
-        if(started) throw new RuntimeException("Etomcat is already started");
+        if (started) throw new RuntimeException("ETomcat is already started");
+        try {
+            doStart(baseDir);
+        } catch (LifecycleException e) {
+            doStop();
+            throw new RuntimeException("Exception occured on starting ETomcat", e);
+        }
+    }
+
+    public synchronized void stop() {
+        if (started) doStop();
+    }
+
+    private void doStart(File baseDir) throws LifecycleException {
         logger.info("Starting Embedded Tomcat...");
         // resolving paths
         Paths paths = new Paths(baseDir, confDir, workDir, docBaseDir, webXmlPath, connectorSSLKeystoreFile, connectorSSLTruststoreFile, connectorSSLCrlFile);
@@ -251,22 +268,14 @@ public class EmbeddedTomcat {
         EmbeddedSpringContext embeddedSpringContext = (EmbeddedSpringContext) springContext;
         embeddedSpringContext.bind(context.getServletContext());
         // starting
-        try {
-            executor.start();
-            embedded.start();
-            logger.info("Embedded Tomcat started successfully");
-        } catch (LifecycleException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public synchronized void stop() {
-        if(started) {
-            doStop();
-        }
+        executor.start();
+        embedded.start();
+        started = true;
+        logger.info("Embedded Tomcat started successfully");
     }
 
     private void doStop() {
+        logger.info("Stopping Embedded Tomcat...");
         try {
             embedded.stop();
         } catch (Exception e) {
@@ -277,11 +286,12 @@ public class EmbeddedTomcat {
         } catch (Exception e) {
             logger.warn("Exception occured on stopping etomcat executor", e);
         }
+        logger.info("Embedded Tomcat stopped");
     }
 
     private StandardEngine createEngine(Paths paths) {
         StandardEngine engine = new StandardEngine();
-        engine.setName(engineName);
+        engine.setName(getClass().getName());
         engine.setBaseDir(paths.getBaseDir());
         return engine;
     }
@@ -404,6 +414,9 @@ public class EmbeddedTomcat {
         proto.setKeystoreType(connectorSSLKeystoreType);
         proto.setProperty("keystoreProvider", connectorSSLKeystoreProvider);
         proto.setKeyAlias(connectorSSLKeyAlias);
+        if(connectorSSLAlgorithm.isEmpty()) {
+            connectorSSLAlgorithm = KeyManagerFactory.getDefaultAlgorithm();
+        }
         proto.setAlgorithm(connectorSSLAlgorithm);
         if(connectorSSLClientAuth) {
             proto.setClientAuth("true");

@@ -21,4 +21,11 @@ public class TestServlet extends HttpServlet {
         ApplicationContext context = (ApplicationContext) req.getSession().getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
         resp.getOutputStream().write(context.getClass().getName().getBytes("UTF-8"));
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String param = req.getParameter("foo");
+        boolean res = "bar".equals(param);
+        resp.getOutputStream().write(Boolean.toString(res).getBytes("UTF-8"));
+    }
 }

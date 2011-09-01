@@ -12,6 +12,7 @@ import java.beans.PropertyChangeListener;
  */
 class EmbeddedLoader implements Loader {
 
+    private static final String[] REPOS = new String[0];
     private StandardContext container;
 
     @Override
@@ -73,7 +74,7 @@ class EmbeddedLoader implements Loader {
 
     @Override
     public String[] findRepositories() {
-        return new String[0];
+        return REPOS;
     }
 
     @Override

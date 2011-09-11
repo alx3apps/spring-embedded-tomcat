@@ -43,11 +43,13 @@ public class EmbeddedTomcat {
     // general
     @Value("${etomcat.port}")
     private int port;
-    @Value("${etomcat.ssl.keystoreFile}")
+    @Value("${etomcat.SSLEnabled:true}")
+    private boolean sslEnabled;
+    @Value("${etomcat.ssl.keystoreFile:REPLACEME}")
     private String connectorSSLKeystoreFile;
-    @Value("${etomcat.ssl.keystorePass}")
+    @Value("${etomcat.ssl.keystorePass:REPLACEME}")
     private String connectorSSLKeystorePass;
-    @Value("${etomcat.ssl.keyAlias}")
+    @Value("${etomcat.ssl.keyAlias:REPLACEME}")
     private String connectorSSLKeyAlias;
     // FS
     @Value("${etomcat.confDir:conf}")
@@ -359,11 +361,7 @@ public class EmbeddedTomcat {
         Http11NioProtocol proto = (Http11NioProtocol) con.getProtocolHandler();
         con.setEnableLookups(connectorEnableLookups);
         con.setMaxPostSize(connectorMaxPostSize);
-        proto.setSSLEnabled(true);
-        con.setScheme("https");
-        con.setSecure(true);
         con.setURIEncoding("UTF-8");
-
         con.setProperty("acceptCount", Integer.toString(connectorAcceptCount));
         proto.setCompressableMimeType(connectorCompressableMimeType);
         proto.setCompression(connectorCompression);
@@ -408,28 +406,33 @@ public class EmbeddedTomcat {
         con.setProperty("socket.unlockTimeout", Integer.toString(connectorSocketUnlockTimeout));
         con.setProperty("selectorPool.maxSelectors", Integer.toString(connectorSPMaxSelectors));
         con.setProperty("selectorPool.maxSpareSelectors", Integer.toString(connectorMPMaxSpareSelectors));
-        // SSL
-        proto.setKeystoreFile(paths.getKeystoreFile());
-        proto.setKeystorePass(connectorSSLKeystorePass);
-        proto.setKeystoreType(connectorSSLKeystoreType);
-        proto.setProperty("keystoreProvider", connectorSSLKeystoreProvider);
-        proto.setKeyAlias(connectorSSLKeyAlias);
-        if(connectorSSLAlgorithm.isEmpty()) {
-            connectorSSLAlgorithm = KeyManagerFactory.getDefaultAlgorithm();
+
+        if(sslEnabled) {
+            proto.setSSLEnabled(true);
+            con.setScheme("https");
+            con.setSecure(true);
+            proto.setKeystoreFile(paths.getKeystoreFile());
+            proto.setKeystorePass(connectorSSLKeystorePass);
+            proto.setKeystoreType(connectorSSLKeystoreType);
+            proto.setProperty("keystoreProvider", connectorSSLKeystoreProvider);
+            proto.setKeyAlias(connectorSSLKeyAlias);
+            if(connectorSSLAlgorithm.isEmpty()) {
+                connectorSSLAlgorithm = KeyManagerFactory.getDefaultAlgorithm();
+            }
+            proto.setAlgorithm(connectorSSLAlgorithm);
+            if(connectorSSLClientAuth) {
+                proto.setClientAuth("true");
+                proto.setTruststoreFile(paths.getTruststoreFile());
+                proto.setTruststorePass(connectorSSLTruststorePass);
+                proto.setTruststoreType(connectorSSLTruststoreType);
+                con.setProperty("truststoreProvider", connectorSSLTruststoreProvider);
+            }
+            proto.setSslProtocol(connectorSSLProtocol);
+            proto.setCiphers(connectorSSLCiphers);
+            con.setProperty("sessionCacheSize", Integer.toString(connectorSSLSessionCacheSize));
+            con.setProperty("sessionTimeout", Integer.toString(connectorSSLSessionTimeout));
+            if(!connectorSSLCrlFile.isEmpty()) con.setProperty("crlFile", paths.getCrlFile());
         }
-        proto.setAlgorithm(connectorSSLAlgorithm);
-        if(connectorSSLClientAuth) {
-            proto.setClientAuth("true");
-            proto.setTruststoreFile(paths.getTruststoreFile());
-            proto.setTruststorePass(connectorSSLTruststorePass);
-            proto.setTruststoreType(connectorSSLTruststoreType);
-            con.setProperty("truststoreProvider", connectorSSLTruststoreProvider);
-        }
-        proto.setSslProtocol(connectorSSLProtocol);
-        proto.setCiphers(connectorSSLCiphers);
-        con.setProperty("sessionCacheSize", Integer.toString(connectorSSLSessionCacheSize));
-        con.setProperty("sessionTimeout", Integer.toString(connectorSSLSessionTimeout));
-        if(!connectorSSLCrlFile.isEmpty()) con.setProperty("crlFile", paths.getCrlFile());
 
         return con;
     }

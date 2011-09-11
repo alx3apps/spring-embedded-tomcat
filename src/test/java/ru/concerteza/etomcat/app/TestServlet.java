@@ -14,6 +14,7 @@ import java.io.IOException;
  * Date: 8/28/11
  */
 public class TestServlet extends HttpServlet {
+    private static final long serialVersionUID = -8124821589871278803L;
     public static final String CONTENT = "ru.concerteza.etomcat.EmbeddedSpringContext";
 
     @Override

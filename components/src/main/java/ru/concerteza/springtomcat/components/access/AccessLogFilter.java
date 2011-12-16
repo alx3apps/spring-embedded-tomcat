@@ -3,10 +3,7 @@ package ru.concerteza.springtomcat.components.access;
 import org.joda.time.LocalDateTime;
 import org.springframework.web.filter.GenericFilterBean;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,21 +15,22 @@ import java.io.IOException;
 public class AccessLogFilter extends GenericFilterBean {
     private AccessConsumer consumer;
 
+    public void setConsumer(AccessConsumer consumer) {
+        this.consumer = consumer;
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
         LocalDateTime start = new LocalDateTime();
         chain.doFilter(request, response);
         LocalDateTime end = new LocalDateTime();
-        AccessEvent event = createEvent((HttpServletRequest) request, (HttpServletResponse) response, start, end);
+        AccessEvent event = createEvent(req, resp, start, end);
         consumer.consume(event);
     }
 
     private AccessEvent createEvent(HttpServletRequest request, HttpServletResponse response, LocalDateTime start, LocalDateTime end) {
-        int responseCode = ((org.apache.catalina.connector.Response) response).getStatus();
-        return new AccessEvent(start, end, request.getRemoteAddr(), request.getRemoteHost(), request.getMethod(), responseCode, request.getRequestURI());
-    }
-
-    public void setConsumer(AccessConsumer consumer) {
-        this.consumer = consumer;
+        return new AccessEvent(start, end, request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
     }
 }

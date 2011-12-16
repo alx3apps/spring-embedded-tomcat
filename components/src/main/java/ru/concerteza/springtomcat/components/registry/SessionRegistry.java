@@ -7,27 +7,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.System.currentTimeMillis;
 
 /**
  * User: alexey
  * Date: 11/4/11
  */
+
+// <!-- http://static.springsource.org/spring-security/site/docs/3.0.x/reference/session-mgmt.html#concurrent-sessions -->
 public class SessionRegistry {
-    private final Map<String, HttpSession> registry = new HashMap<String, HttpSession>();
+    // login to session map
+    private final Map<String, HttpSession> authorMap = new HashMap<String, HttpSession>();
+    // session id to login map
+    private final Map<String, String> idMap = new HashMap<String, String>();
     private final Object lock = new Object();
 
     public void put(String login, HttpSession session) {
         synchronized (lock) {
-            HttpSession existed = registry.get(login);
-            if(null == existed) {
-                registry.put(login, session);
-            } else if(!existed.getId().equals(session.getId())) {
+            HttpSession existed = authorMap.get(login);
+            if(null != existed && !existed.getId().equals(session.getId())) {
                 // logging out other user with same login
-                // todo logme
                 existed.invalidate();
-                registry.put(login, session);
             }
+            register(login, session);
         }
     }
 
@@ -35,7 +36,7 @@ public class SessionRegistry {
         synchronized (lock) {
             Map<String, Boolean> res = new HashMap<String, Boolean>(logins.size());
             for (String lo : logins) {
-                res.put(lo, registry.containsKey(lo));
+                res.put(lo, authorMap.containsKey(lo));
             }
             return res;
         }
@@ -43,19 +44,59 @@ public class SessionRegistry {
 
     public boolean contains(String login) {
         synchronized (lock) {
-            return registry.containsKey(login);
+            return authorMap.containsKey(login);
         }
     }
 
     public HttpSession get(String login) {
         synchronized (lock) {
-            return registry.get(login);
+            return authorMap.get(login);
         }
     }
 
     public void remove(String login) {
         synchronized (lock) {
-            registry.remove(login);
+            unregister(login);
+        }
+    }
+
+    public void remove(HttpSession session) {
+        synchronized (lock) {
+            unregister(session);
+        }
+    }
+
+    public String dump() {
+        synchronized (lock) {
+            return new ToStringBuilder(this).
+                    append("authorMap", authorMap).
+                    append("idMap", idMap).
+                    toString();
+        }
+    }
+
+    private void register(String login, HttpSession session) {
+        authorMap.put(login, session);
+        idMap.put(session.getId(), login);
+    }
+
+    private void unregister(String login) {
+        HttpSession session = authorMap.remove(login);
+        if(null != session) {
+            String sameLogin = idMap.remove(session.getId());
+            // cannot happen
+            if(!login.equals(sameLogin)) throw new IllegalStateException("Session registry state corrupted," +
+                    " authorMap: " + authorMap + ", idMap: " + idMap);
+        }
+    }
+
+    private void unregister(HttpSession session) {
+        String login = idMap.remove(session.getId());
+        if(null != login) {
+            HttpSession sameSession = authorMap.remove(login);
+            // cannot happen
+            if(!session.equals(sameSession)) throw new IllegalStateException("Session registry state corrupted," +
+                    " authorMap: " + authorMap + ", idMap: " + idMap);
         }
     }
 }

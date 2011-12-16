@@ -1,22 +1,39 @@
 package ru.concerteza.springtomcat.components.registry;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * User: alexey
  * Date: 11/4/11
  */
+
+// depends on Spring Security
+//
 public class SessionIdRegistryFilter extends GenericFilterBean {
+    private SessionRegistry registry;
+
+    public void setRegistry(SessionRegistry registry) {
+        this.registry = registry;
+    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        //Todo change body of implemented methods use File | Settings | File Templates.
+        HttpServletRequest req = (HttpServletRequest) request;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (null != auth) {
+            registry.put(auth.getName(), req.getSession());
+        } else {
+            logger.warn("Auth info not found on sessionRegistryFilter step, sessionId: " + req.getSession().getId());
+        }
+        chain.doFilter(request, response);
     }
 }

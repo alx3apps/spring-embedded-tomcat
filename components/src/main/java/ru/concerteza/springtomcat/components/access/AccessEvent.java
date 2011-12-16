@@ -17,17 +17,16 @@ public class AccessEvent implements Serializable{
     private final LocalDateTime start;
     private final LocalDateTime end;
     private final String remoteIpAddress;
-    private final String remoteHostname;
     private final String requestMethod;
-    private final int responseCode;
+    // not supported in servlet 2.5
+//    private final int responseCode;
     private final String url;
 
 
-    public AccessEvent(LocalDateTime start, LocalDateTime end, String remoteIpAddress, String remoteHostname, String requestMethod, int responseCode, String url) {
+    public AccessEvent(LocalDateTime start, LocalDateTime end, String remoteIpAddress, String requestMethod, String url) {
         this.remoteIpAddress = remoteIpAddress;
-        this.remoteHostname = remoteHostname;
         this.requestMethod = requestMethod;
-        this.responseCode = responseCode;
+//        this.responseCode = responseCode;
         this.url = url;
         this.start = start;
         this.end = end;
@@ -42,9 +41,8 @@ public class AccessEvent implements Serializable{
                 .append(this.start, that.start)
                 .append(this.end, that.end)
                 .append(this.remoteIpAddress, that.remoteIpAddress)
-                .append(this.remoteHostname, that.remoteHostname)
                 .append(this.requestMethod, that.requestMethod)
-                .append(this.responseCode, that.responseCode)
+//                .append(this.responseCode, that.responseCode)
                 .append(this.url, that.url)
                 .isEquals();
     }
@@ -55,9 +53,8 @@ public class AccessEvent implements Serializable{
                 .append(start)
                 .append(end)
                 .append(remoteIpAddress)
-                .append(remoteHostname)
                 .append(requestMethod)
-                .append(responseCode)
+//                .append(responseCode)
                 .append(url)
                 .hashCode();
     }
@@ -68,9 +65,8 @@ public class AccessEvent implements Serializable{
                 append("start", start).
                 append("end", end).
                 append("remoteIpAddress", remoteIpAddress).
-                append("remoteHostname", remoteHostname).
                 append("requestMethod", requestMethod).
-                append("responseCode", responseCode).
+//                append("responseCode", responseCode).
                 append("url", url).
                 toString();
     }

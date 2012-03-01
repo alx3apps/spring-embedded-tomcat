@@ -32,6 +32,26 @@ public class AccessEvent implements Serializable{
         this.end = end;
     }
 
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public String getRemoteIpAddress() {
+        return remoteIpAddress;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

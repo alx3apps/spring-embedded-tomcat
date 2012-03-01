@@ -15,6 +15,7 @@ import java.io.IOException;
 public class AccessLogFilter extends GenericFilterBean {
     private AccessConsumer consumer;
 
+    // todo: make listenable
     public void setConsumer(AccessConsumer consumer) {
         this.consumer = consumer;
     }

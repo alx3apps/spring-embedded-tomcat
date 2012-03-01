@@ -11,7 +11,6 @@
 
     <modules>
         <module>etomcat6</module>
-        <module>etomcat7</module>
         <module>etomcat6-test</module>
         <module>components</module>
     </modules>
@@ -76,7 +75,7 @@
             <plugin>
                 <groupId>ru.concerteza.buildnumber</groupId>
                 <artifactId>maven-jgit-buildnumber-plugin</artifactId>
-                <version>1.0</version>
+                <version>1.1</version>
                 <executions>
                     <execution>
                         <id>git-buildnumber</id>

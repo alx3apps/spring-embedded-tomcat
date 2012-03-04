@@ -1,9 +1,7 @@
-package ru.concerteza.springtomcat.etomcat6.components;
+package ru.concerteza.springtomcat.etomcat6.x509;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
-import ru.concerteza.springtomcat.components.holder.SessionHolder;
-import ru.concerteza.springtomcat.components.registry.SessionRegistry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,15 +11,16 @@ import java.io.IOException;
 
 /**
  * User: alexey
- * Date: 3/2/12
+ * Date: 3/4/12
  */
-public class RegistryServlet extends HttpServlet {
-    private static final long serialVersionUID = 4131885764840516610L;
+public class X509Servlet extends HttpServlet {
+    private static final long serialVersionUID = -4988677350741242648L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ApplicationContext context = (ApplicationContext) req.getSession().getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-        SessionRegistry registry = context.getBean(SessionRegistry.class);
-        resp.getOutputStream().write(Boolean.toString(registry.contains("anonymous")).getBytes("UTF-8"));
+        SecuredService service = context.getBean(SecuredService.class);
+        String reply = service.hello();
+        resp.getOutputStream().write(reply.getBytes("UTF-8"));
     }
 }

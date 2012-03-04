@@ -15,6 +15,8 @@ import java.io.IOException;
  * Date: 3/2/12
  */
 public class HolderServlet extends HttpServlet {
+    private static final long serialVersionUID = -4967422466219316383L;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ApplicationContext context = (ApplicationContext) req.getSession().getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);

@@ -43,6 +43,11 @@
             <artifactId>commons-io</artifactId>
             <version>2.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>1.0</version>
+        </dependency>
         <!-- spring-security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -57,6 +62,11 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
         <!-- logging -->

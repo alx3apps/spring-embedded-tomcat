@@ -58,7 +58,7 @@ public class EmbeddedTomcat implements ApplicationContextAware {
     private void doStart(File baseDir) throws LifecycleException {
         logger.info("Starting Embedded Tomcat...");
         // resolving paths
-        Paths paths = new Paths(baseDir, fsProps.getConfDir(), fsProps.getWorkDir(), fsProps.getDocBaseDir(), fsProps.getWebXmlPath(), generalProps.getKeystoreFile(), sslProps.getTruststoreFile(), sslProps.getCrlFile());
+        Paths paths = new Paths(baseDir, fsProps.getConfDir(), fsProps.getWorkDir(), generalProps.getDocBaseDir(), fsProps.getWebXmlPath(), generalProps.getKeystoreFile(), sslProps.getTruststoreFile(), sslProps.getCrlFile());
         logger.debug("Etomcat paths resolved: " + paths);
         // creating
         embedded = new Embedded();
@@ -133,6 +133,7 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         context.setUseNaming(false);
         context.setConfigured(true);
         context.setIgnoreAnnotations(true);
+        context.setWrapperClass(EmbeddedWrapper.class.getName());
 
         context.setCookies(contextProps.isCookies());
         context.setDisableURLRewriting(contextProps.isDisableURLRewriting());
@@ -144,9 +145,11 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         context.setUnloadDelay(contextProps.getUnloadDelayMs());
 
         context.setLoader(new EmbeddedLoader());
-        if(fsProps.isUseFsResources()) {
+        if(generalProps.isUseFsResources()) {
+            logger.debug("Using FileDirContext");
             context.setResources(new FileDirContext());
         } else {
+            logger.debug("Using EmbeddedDirContext");
             context.setResources(new EmbeddedDirContext());
         }
         context.setManager(createManager());

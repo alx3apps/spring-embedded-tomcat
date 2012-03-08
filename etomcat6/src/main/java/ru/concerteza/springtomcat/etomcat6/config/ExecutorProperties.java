@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class ExecutorProperties {
     private String name = "etomcat-executor";
     private boolean daemon = true;
-    private String namePrefix = "etomcat";
+    private String namePrefix = "etomcat-";
     private int maxThreads = 200;
     private int minSpareThreads = 2;
     private int maxIdleTimeMs = 600000;

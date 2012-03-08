@@ -8,8 +8,6 @@ public class FsProperties {
     private String confDir = "conf";
     private String webXmlPath = "web.xml";
     private String workDir = "work";
-    private boolean useFsResources = false;
-    private String docBaseDir = "static";
 
     public String getConfDir() {
         return confDir;
@@ -33,21 +31,5 @@ public class FsProperties {
 
     public void setWorkDir(String workDir) {
         this.workDir = workDir;
-    }
-
-    public boolean isUseFsResources() {
-        return useFsResources;
-    }
-
-    public void setUseFsResources(boolean useFsResources) {
-        this.useFsResources = useFsResources;
-    }
-
-    public String getDocBaseDir() {
-        return docBaseDir;
-    }
-
-    public void setDocBaseDir(String docBaseDir) {
-        this.docBaseDir = docBaseDir;
     }
 }

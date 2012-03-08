@@ -25,11 +25,7 @@
                 <property name="keystoreFile" value="${etomcat.ssl.keystoreFile}"/>
                 <property name="keystorePass" value="${etomcat.ssl.keystorePass}"/>
                 <property name="keyAlias" value="${etomcat.ssl.keyAlias}"/>
-            </bean>
-        </property>
-        <property name="fsProps">
-            <bean class="ru.concerteza.springtomcat.etomcat6.config.FsProperties">
-                <property name="useFsResources" value="${etomcat.useFsResources}"/>
+                <property name="docBaseDir" value="${etomcat.docBaseDir}"/>
             </bean>
         </property>
     </bean>

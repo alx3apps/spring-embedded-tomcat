@@ -12,6 +12,7 @@ public class GeneralProperties {
     private String keystoreFile;
     private String keystorePass;
     private String keyAlias;
+    private String docBaseDir = "";
 
     public int getPort() {
         return port;
@@ -51,5 +52,17 @@ public class GeneralProperties {
 
     public void setKeyAlias(String keyAlias) {
         this.keyAlias = keyAlias;
+    }
+
+    public String getDocBaseDir() {
+        return docBaseDir;
+    }
+
+    public void setDocBaseDir(String docBaseDir) {
+        this.docBaseDir = docBaseDir;
+    }
+
+    public boolean isUseFsResources() {
+        return null != docBaseDir && docBaseDir.length() > 0;
     }
 }

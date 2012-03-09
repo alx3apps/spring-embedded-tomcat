@@ -25,14 +25,14 @@
         <property name="generalProps">
             <bean class="ru.concerteza.springtomcat.etomcat6.config.GeneralProperties">
                 <property name="port" value="${etomcat.port}"/>
-                <property name="sslEnabled" value="true"/>
-                <property name="keystoreFile" value="${etomcat.ssl.keystoreFile}"/>
-                <property name="keystorePass" value="${etomcat.ssl.keystorePass}"/>
-                <property name="keyAlias" value="${etomcat.ssl.keyAlias}"/>
             </bean>
         </property>
         <property name="sslProps">
             <bean class="ru.concerteza.springtomcat.etomcat6.config.SslProperties">
+                <property name="sslEnabled" value="true"/>
+                <property name="keystoreFile" value="${etomcat.ssl.keystoreFile}"/>
+                <property name="keystorePass" value="${etomcat.ssl.keystorePass}"/>
+                <property name="keyAlias" value="${etomcat.ssl.keyAlias}"/>
                 <property name="clientAuth" value="true"/>
                 <property name="truststoreFile" value="${etomcat.ssl.truststoreFile}" />
                 <property name="truststorePass" value="${etomcat.ssl.truststorePass}" />

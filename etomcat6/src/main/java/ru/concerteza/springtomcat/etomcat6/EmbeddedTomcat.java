@@ -58,7 +58,7 @@ public class EmbeddedTomcat implements ApplicationContextAware {
     private void doStart(File baseDir) throws LifecycleException {
         logger.info("Starting Embedded Tomcat...");
         // resolving paths
-        Paths paths = new Paths(baseDir, fsProps.getConfDir(), fsProps.getWorkDir(), generalProps.getDocBaseDir(), fsProps.getWebXmlPath(), generalProps.getKeystoreFile(), sslProps.getTruststoreFile(), sslProps.getCrlFile());
+        Paths paths = new Paths(baseDir, fsProps.getConfDir(), fsProps.getWorkDir(), generalProps.getDocBaseDir(), fsProps.getWebXmlPath(), sslProps.getKeystoreFile(), sslProps.getTruststoreFile(), sslProps.getCrlFile());
         logger.debug("Etomcat paths resolved: " + paths);
         // creating
         embedded = new Embedded();
@@ -124,7 +124,6 @@ public class EmbeddedTomcat implements ApplicationContextAware {
     private StandardContext createContext(Paths paths) {
         StandardContext context = new StandardContext();
         context.setAltDDName(paths.getWebXmlFile());
-        context.setPath("");
         context.setCrossContext(true);
         context.setPrivileged(true);
         context.setClearReferencesHttpClientKeepAliveThread(false);
@@ -135,6 +134,7 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         context.setIgnoreAnnotations(true);
         context.setWrapperClass(EmbeddedWrapper.class.getName());
 
+        context.setPath(generalProps.getContextPath());
         context.setCookies(contextProps.isCookies());
         context.setDisableURLRewriting(contextProps.isDisableURLRewriting());
         context.setDocBase(paths.getDocBaseDir());
@@ -220,15 +220,15 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         con.setProperty("selectorPool.maxSelectors", Integer.toString(nioProps.getMaxSelectors()));
         con.setProperty("selectorPool.maxSpareSelectors", Integer.toString(nioProps.getMaxSpareSelectors()));
 
-        if(generalProps.isSslEnabled()) {
+        if(sslProps.isSslEnabled()) {
             proto.setSSLEnabled(true);
             con.setScheme("https");
             con.setSecure(true);
             proto.setKeystoreFile(paths.getKeystoreFile());
-            proto.setKeystorePass(generalProps.getKeystorePass());
+            proto.setKeystorePass(sslProps.getKeystorePass());
             proto.setKeystoreType(sslProps.getKeystoreType());
             proto.setProperty("keystoreProvider", sslProps.getKeystoreProvider());
-            proto.setKeyAlias(generalProps.getKeyAlias());
+            proto.setKeyAlias(sslProps.getKeyAlias());
             proto.setAlgorithm(sslProps.getAlgorithm());
             if(sslProps.isClientAuth()) {
                 proto.setClientAuth("true");

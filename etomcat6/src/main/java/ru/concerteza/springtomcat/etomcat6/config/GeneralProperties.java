@@ -8,11 +8,8 @@ package ru.concerteza.springtomcat.etomcat6.config;
 public class GeneralProperties {
 
     private int port = 8080;
-    private boolean sslEnabled = false;
-    private String keystoreFile;
-    private String keystorePass;
-    private String keyAlias;
     private String docBaseDir = "";
+    private String contextPath = "";
 
     public int getPort() {
         return port;
@@ -20,38 +17,6 @@ public class GeneralProperties {
 
     public void setPort(int port) {
         this.port = port;
-    }
-
-    public boolean isSslEnabled() {
-        return sslEnabled;
-    }
-
-    public void setSslEnabled(boolean sslEnabled) {
-        this.sslEnabled = sslEnabled;
-    }
-
-    public String getKeystoreFile() {
-        return keystoreFile;
-    }
-
-    public void setKeystoreFile(String keystoreFile) {
-        this.keystoreFile = keystoreFile;
-    }
-
-    public String getKeystorePass() {
-        return keystorePass;
-    }
-
-    public void setKeystorePass(String keystorePass) {
-        this.keystorePass = keystorePass;
-    }
-
-    public String getKeyAlias() {
-        return keyAlias;
-    }
-
-    public void setKeyAlias(String keyAlias) {
-        this.keyAlias = keyAlias;
     }
 
     public String getDocBaseDir() {
@@ -64,5 +29,13 @@ public class GeneralProperties {
 
     public boolean isUseFsResources() {
         return null != docBaseDir && docBaseDir.length() > 0;
+    }
+
+    public String getContextPath() {
+        return contextPath;
+    }
+
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
     }
 }

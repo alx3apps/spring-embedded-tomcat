@@ -10,6 +10,10 @@ import javax.net.ssl.KeyManagerFactory;
 public class SslProperties {
     private String algorithm = KeyManagerFactory.getDefaultAlgorithm();
     private boolean clientAuth = false;
+    private boolean sslEnabled = false;
+    private String keystoreFile;
+    private String keystorePass;
+    private String keyAlias;
     private String keystoreType = "pkcs12";
     private String keystoreProvider = "SunJSSE";
     private String truststoreFile = "trustsrore.p12";
@@ -36,6 +40,38 @@ public class SslProperties {
 
     public void setClientAuth(boolean clientAuth) {
         this.clientAuth = clientAuth;
+    }
+
+    public boolean isSslEnabled() {
+        return sslEnabled;
+    }
+
+    public void setSslEnabled(boolean sslEnabled) {
+        this.sslEnabled = sslEnabled;
+    }
+
+    public String getKeystoreFile() {
+        return keystoreFile;
+    }
+
+    public void setKeystoreFile(String keystoreFile) {
+        this.keystoreFile = keystoreFile;
+    }
+
+    public String getKeystorePass() {
+        return keystorePass;
+    }
+
+    public void setKeystorePass(String keystorePass) {
+        this.keystorePass = keystorePass;
+    }
+
+    public String getKeyAlias() {
+        return keyAlias;
+    }
+
+    public void setKeyAlias(String keyAlias) {
+        this.keyAlias = keyAlias;
     }
 
     public String getKeystoreType() {

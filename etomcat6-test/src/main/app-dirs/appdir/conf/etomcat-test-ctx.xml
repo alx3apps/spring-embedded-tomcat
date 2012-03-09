@@ -21,6 +21,10 @@
         <property name="generalProps">
             <bean class="ru.concerteza.springtomcat.etomcat6.config.GeneralProperties">
                 <property name="port" value="${etomcat.port}"/>
+            </bean>
+        </property>
+        <property name="sslProps">
+            <bean class="ru.concerteza.springtomcat.etomcat6.config.SslProperties">
                 <property name="sslEnabled" value="true"/>
                 <property name="keystoreFile" value="${etomcat.ssl.keystoreFile}"/>
                 <property name="keystorePass" value="${etomcat.ssl.keystorePass}"/>

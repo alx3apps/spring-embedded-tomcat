@@ -195,6 +195,7 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         proto.setSelectorTimeout(nioProps.getSelectorTimeoutMs());
         proto.setOomParachute(nioProps.getOomParachute());
         proto.setUseExecutor(true);
+        con.setProperty("useComet", Boolean.toString(connectorProps.isUseComet()));
         con.setProperty("socket.directBuffer", Boolean.toString(socketProps.isDirectBuffer()));
         con.setProperty("socket.rxBufSize", Integer.toString(socketProps.getRxBufSizeBytes()));
         con.setProperty("socket.txBufSize", Integer.toString(socketProps.getTxBufSizeBytes()));

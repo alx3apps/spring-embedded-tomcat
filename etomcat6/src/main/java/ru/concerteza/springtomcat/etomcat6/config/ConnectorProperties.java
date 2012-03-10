@@ -21,6 +21,7 @@ public class ConnectorProperties {
     private int maxKeepAliveRequests = 8192;
     private String server = "Embedded Servlet Container";
     private int socketBufferBytes = 9000;
+    private boolean useComet = false;
 
     public boolean isEnableLookups() {
         return enableLookups;
@@ -132,5 +133,13 @@ public class ConnectorProperties {
 
     public void setSocketBufferBytes(int socketBufferBytes) {
         this.socketBufferBytes = socketBufferBytes;
+    }
+
+    public boolean isUseComet() {
+        return useComet;
+    }
+
+    public void setUseComet(boolean useComet) {
+        this.useComet = useComet;
     }
 }

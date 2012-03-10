@@ -18,7 +18,7 @@ public class ConnectorProperties {
     private String noCompressionUserAgents = "";
     private boolean disableUploadTimeout = false;
     private int maxHttpHeaderSizeBytes = 8192;
-    private int maxKeepAliveRequests = 8192;
+    private int maxKeepAliveRequests = 100;
     private String server = "Embedded Servlet Container";
     private int socketBufferBytes = 9000;
     private boolean useComet = false;

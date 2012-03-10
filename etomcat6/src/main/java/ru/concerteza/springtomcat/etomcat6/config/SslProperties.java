@@ -23,7 +23,7 @@ public class SslProperties {
     private String protocol = "TLS";
     private String ciphers = "TLS_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_DSS_WITH_AES_128_CBC_SHA,SSL_RSA_WITH_3DES_EDE_CBC_SHA,SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA,SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA";
     private int sessionCacheSize = 0;
-    private int sessionTimeout = 86400;
+    private int sessionTimeoutSecs = 86400;
     private String crlFile = "";
 
     public String getAlgorithm() {
@@ -146,12 +146,12 @@ public class SslProperties {
         this.sessionCacheSize = sessionCacheSize;
     }
 
-    public int getSessionTimeout() {
-        return sessionTimeout;
+    public int getSessionTimeoutSecs() {
+        return sessionTimeoutSecs;
     }
 
-    public void setSessionTimeout(int sessionTimeout) {
-        this.sessionTimeout = sessionTimeout;
+    public void setSessionTimeoutSecs(int sessionTimeoutSecs) {
+        this.sessionTimeoutSecs = sessionTimeoutSecs;
     }
 
     public String getCrlFile() {

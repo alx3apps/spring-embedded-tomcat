@@ -162,6 +162,7 @@ public class EmbeddedTomcat implements ApplicationContextAware {
     private EmbeddedManager createManager() {
         EmbeddedManager manager = new EmbeddedManager();
         manager.setMaxActiveSessions(contextProps.getMaxActiveSessions());
+        manager.setMaxInactiveInterval(contextProps.getSessionTimeoutMinutes() * 60);
         return manager;
     }
 

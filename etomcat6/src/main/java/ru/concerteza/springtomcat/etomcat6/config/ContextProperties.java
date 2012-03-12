@@ -15,6 +15,7 @@ public class ContextProperties {
     private boolean cachingAllowed = false;
     private int unloadDelayMs = 2000;
     private int maxActiveSessions = -1;
+    private int sessionTimeoutMinutes = 10;
 
     public boolean isCookies() {
         return cookies;
@@ -78,5 +79,13 @@ public class ContextProperties {
 
     public void setMaxActiveSessions(int maxActiveSessions) {
         this.maxActiveSessions = maxActiveSessions;
+    }
+
+    public int getSessionTimeoutMinutes() {
+        return sessionTimeoutMinutes;
+    }
+
+    public void setSessionTimeoutMinutes(int sessionTimeoutMinutes) {
+        this.sessionTimeoutMinutes = sessionTimeoutMinutes;
     }
 }

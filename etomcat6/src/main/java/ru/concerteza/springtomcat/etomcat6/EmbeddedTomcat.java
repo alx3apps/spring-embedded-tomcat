@@ -143,6 +143,7 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         context.setCacheTTL(contextProps.getCacheTTLSec());
         context.setCachingAllowed(contextProps.isCachingAllowed());
         context.setUnloadDelay(contextProps.getUnloadDelayMs());
+        context.setSessionTimeout(contextProps.getSessionTimeoutMinutes());
 
         context.setLoader(new EmbeddedLoader());
         if(generalProps.isUseFsResources()) {

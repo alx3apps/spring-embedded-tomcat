@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.concerteza.spring-embedded-tomcat</groupId>
     <artifactId>spring-embedded-tomcat</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
     <name>Apache Tomcat Integration With Spring Framework</name>
     <packaging>pom</packaging>
 

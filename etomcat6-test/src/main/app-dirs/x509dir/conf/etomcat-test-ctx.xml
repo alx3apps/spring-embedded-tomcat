@@ -47,7 +47,6 @@
     </context:component-scan>
 
     <!-- security -->
-    <!-- Note: anonumousProcessingFilter removed. -->
     <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
         <security:filter-chain-map path-type="ant">
             <security:filter-chain pattern="/**"
@@ -104,8 +103,12 @@
         </property>
     </bean>
 
+    <bean id="userDetailsByNameServiceWrapper" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+        <property name="userDetailsService" ref="authUserDetailsService" />
+    </bean>
+
     <bean id="inMemoryAuthenticationProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
-        <property name="preAuthenticatedUserDetailsService" ref="authUserDetailService"/>
+        <property name="preAuthenticatedUserDetailsService" ref="userDetailsByNameServiceWrapper"/>
     </bean>
 
     <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">

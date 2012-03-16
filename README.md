@@ -256,6 +256,7 @@ Caveats
 -------
 
 Some caveats:
+
  - all path parameters are resolved relatively to `CATALINA_HOME` directory
  - most, but not all config supported from web.xml, e.g. `sessionTimeout` must be set as
  `contextProps.sessionTimeoutMinutes` not in web.xml

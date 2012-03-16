@@ -15,7 +15,7 @@ import java.io.IOException;
 public class AccessLogFilter extends GenericFilterBean {
     private AccessConsumer consumer;
 
-    // todo: make listenable
+    // don't want to use listeners here - they will be hard to configure from spring
     public void setConsumer(AccessConsumer consumer) {
         this.consumer = consumer;
     }

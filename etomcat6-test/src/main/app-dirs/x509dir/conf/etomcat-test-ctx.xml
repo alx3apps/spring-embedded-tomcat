@@ -78,7 +78,7 @@
     <bean id="requestCacheAwareFilter" class="org.springframework.security.web.savedrequest.RequestCacheAwareFilter" />
 
     <bean id="securityContextHolderAwareRequestFilter" class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter" >
-        <property name="rolePrefix" value="ROLE_" />
+        <property name="rolePrefix" value="" />
     </bean>
 
     <bean id="concurrentSessionControlStrategy" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy" >

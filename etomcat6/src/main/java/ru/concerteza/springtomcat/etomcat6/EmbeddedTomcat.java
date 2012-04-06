@@ -241,7 +241,7 @@ public class EmbeddedTomcat implements ApplicationContextAware {
                 con.setProperty("truststoreProvider", sslProps.getTruststoreProvider());
             }
             proto.setSslProtocol(sslProps.getProtocol());
-            proto.setCiphers(sslProps.getCrlFile());
+            proto.setCiphers(sslProps.getCiphers());
             con.setProperty("sessionCacheSize", Integer.toString(sslProps.getSessionCacheSize()));
             con.setProperty("sessionTimeout", Integer.toString(sslProps.getSessionTimeoutSecs()));
             if(!sslProps.getCrlFile().isEmpty()) con.setProperty("crlFile", paths.getCrlFile());

@@ -32,6 +32,7 @@ public class AccessLogTest extends TestSupertype {
         // test log event
         AccessEvent ev = TestLogConsumer.getLastEvent();
         assertEquals("Method log fail", "GET", ev.getRequestMethod());
+        assertEquals("Status log fail", 200, ev.getResponseCode());
         assertEquals("URL log fail", "/etomcat_test", ev.getUrl());
     }
 

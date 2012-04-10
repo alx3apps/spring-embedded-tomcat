@@ -13,23 +13,26 @@ public class FsProperties {
         return confDir;
     }
 
-    public void setConfDir(String confDir) {
+    public FsProperties setConfDir(String confDir) {
         this.confDir = confDir;
+        return this;
     }
 
     public String getWebXmlPath() {
         return webXmlPath;
     }
 
-    public void setWebXmlPath(String webXmlPath) {
+    public FsProperties setWebXmlPath(String webXmlPath) {
         this.webXmlPath = webXmlPath;
+        return this;
     }
 
     public String getWorkDir() {
         return workDir;
     }
 
-    public void setWorkDir(String workDir) {
+    public FsProperties setWorkDir(String workDir) {
         this.workDir = workDir;
+        return this;
     }
 }

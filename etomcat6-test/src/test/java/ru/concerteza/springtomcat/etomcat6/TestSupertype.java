@@ -7,6 +7,7 @@ import org.jsslutils.extra.apachehttpclient.SslContextedSecureProtocolSocketFact
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.context.support.AbstractApplicationContext;
+import ru.concerteza.springtomcat.etomcat6.context.EmbeddedXmlSpringContext;
 
 import javax.net.ssl.*;
 import java.io.File;
@@ -29,7 +30,7 @@ public abstract class TestSupertype {
         File baseDir = new File("src" + separator + "main" + separator + "app-dirs" + separator + dirname());
         File confDir = new File(baseDir, "conf");
         File ctxFile = new File(confDir, "etomcat-test-ctx.xml");
-        ctx = new EmbeddedSpringContext("file:" + ctxFile.getPath());
+        ctx = new EmbeddedXmlSpringContext("file:" + ctxFile.getPath());
         ctx.getBean(EmbeddedTomcat.class).start(baseDir);
     }
 

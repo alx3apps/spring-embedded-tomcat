@@ -21,55 +21,62 @@ public class ExecutorProperties {
         return name;
     }
 
-    public void setName(String name) {
+    public ExecutorProperties setName(String name) {
         this.name = name;
+        return this;
     }
 
     public boolean isDaemon() {
         return daemon;
     }
 
-    public void setDaemon(boolean daemon) {
+    public ExecutorProperties setDaemon(boolean daemon) {
         this.daemon = daemon;
+        return this;
     }
 
     public String getNamePrefix() {
         return namePrefix;
     }
 
-    public void setNamePrefix(String namePrefix) {
+    public ExecutorProperties setNamePrefix(String namePrefix) {
         this.namePrefix = namePrefix;
+        return this;
     }
 
     public int getMaxThreads() {
         return maxThreads;
     }
 
-    public void setMaxThreads(int maxThreads) {
+    public ExecutorProperties setMaxThreads(int maxThreads) {
         this.maxThreads = maxThreads;
+        return this;
     }
 
     public int getMinSpareThreads() {
         return minSpareThreads;
     }
 
-    public void setMinSpareThreads(int minSpareThreads) {
+    public ExecutorProperties setMinSpareThreads(int minSpareThreads) {
         this.minSpareThreads = minSpareThreads;
+        return this;
     }
 
     public int getMaxIdleTimeMs() {
         return maxIdleTimeMs;
     }
 
-    public void setMaxIdleTimeMs(int maxIdleTimeMs) {
+    public ExecutorProperties setMaxIdleTimeMs(int maxIdleTimeMs) {
         this.maxIdleTimeMs = maxIdleTimeMs;
+        return this;
     }
 
     public int getThreadPriority() {
         return threadPriority;
     }
 
-    public void setThreadPriority(int threadPriority) {
+    public ExecutorProperties setThreadPriority(int threadPriority) {
         this.threadPriority = threadPriority;
+        return this;
     }
 }

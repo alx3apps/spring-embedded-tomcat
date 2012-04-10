@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class TestServlet extends HttpServlet {
     private static final long serialVersionUID = -8124821589871278803L;
-    public static final String CONTENT = "EmbeddedSpringContext";
+    public static final String CONTENT = "EmbeddedXmlSpringContext";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -21,71 +21,80 @@ public class ContextProperties {
         return cookies;
     }
 
-    public void setCookies(boolean cookies) {
+    public ContextProperties setCookies(boolean cookies) {
         this.cookies = cookies;
+        return this;
     }
 
     public boolean isDisableURLRewriting() {
         return disableURLRewriting;
     }
 
-    public void setDisableURLRewriting(boolean disableURLRewriting) {
+    public ContextProperties setDisableURLRewriting(boolean disableURLRewriting) {
         this.disableURLRewriting = disableURLRewriting;
+        return this;
     }
 
     public int getCacheMaxSizeKb() {
         return cacheMaxSizeKb;
     }
 
-    public void setCacheMaxSizeKb(int cacheMaxSizeKb) {
+    public ContextProperties setCacheMaxSizeKb(int cacheMaxSizeKb) {
         this.cacheMaxSizeKb = cacheMaxSizeKb;
+        return this;
     }
 
     public int getCacheObjectMaxSizeKb() {
         return cacheObjectMaxSizeKb;
     }
 
-    public void setCacheObjectMaxSizeKb(int cacheObjectMaxSizeKb) {
+    public ContextProperties setCacheObjectMaxSizeKb(int cacheObjectMaxSizeKb) {
         this.cacheObjectMaxSizeKb = cacheObjectMaxSizeKb;
+        return this;
     }
 
     public int getCacheTTLSec() {
         return cacheTTLSec;
     }
 
-    public void setCacheTTLSec(int cacheTTLSec) {
+    public ContextProperties setCacheTTLSec(int cacheTTLSec) {
         this.cacheTTLSec = cacheTTLSec;
+        return this;
     }
 
     public boolean isCachingAllowed() {
         return cachingAllowed;
     }
 
-    public void setCachingAllowed(boolean cachingAllowed) {
+    public ContextProperties setCachingAllowed(boolean cachingAllowed) {
         this.cachingAllowed = cachingAllowed;
+        return this;
     }
 
     public int getUnloadDelayMs() {
         return unloadDelayMs;
     }
 
-    public void setUnloadDelayMs(int unloadDelayMs) {
+    public ContextProperties setUnloadDelayMs(int unloadDelayMs) {
         this.unloadDelayMs = unloadDelayMs;
+        return this;
     }
 
     public int getMaxActiveSessions() {
         return maxActiveSessions;
     }
 
-    public void setMaxActiveSessions(int maxActiveSessions) {
+    public ContextProperties setMaxActiveSessions(int maxActiveSessions) {
         this.maxActiveSessions = maxActiveSessions;
+        return this;
     }
 
     public int getSessionTimeoutMinutes() {
         return sessionTimeoutMinutes;
     }
 
-    public void setSessionTimeoutMinutes(int sessionTimeoutMinutes) {
+    public ContextProperties setSessionTimeoutMinutes(int sessionTimeoutMinutes) {
         this.sessionTimeoutMinutes = sessionTimeoutMinutes;
+        return this;
     }
 }

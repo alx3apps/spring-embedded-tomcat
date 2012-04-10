@@ -15,16 +15,18 @@ public class GeneralProperties {
         return port;
     }
 
-    public void setPort(int port) {
+    public GeneralProperties setPort(int port) {
         this.port = port;
+        return this;
     }
 
     public String getDocBaseDir() {
         return docBaseDir;
     }
 
-    public void setDocBaseDir(String docBaseDir) {
+    public GeneralProperties setDocBaseDir(String docBaseDir) {
         this.docBaseDir = docBaseDir;
+        return this;
     }
 
     public boolean isUseFsResources() {
@@ -35,7 +37,8 @@ public class GeneralProperties {
         return contextPath;
     }
 
-    public void setContextPath(String contextPath) {
+    public GeneralProperties setContextPath(String contextPath) {
         this.contextPath = contextPath;
+        return this;
     }
 }

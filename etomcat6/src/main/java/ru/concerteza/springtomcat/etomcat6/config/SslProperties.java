@@ -30,135 +30,152 @@ public class SslProperties {
         return algorithm;
     }
 
-    public void setAlgorithm(String algorithm) {
+    public SslProperties setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
+        return this;
     }
 
     public boolean isClientAuth() {
         return clientAuth;
     }
 
-    public void setClientAuth(boolean clientAuth) {
+    public SslProperties setClientAuth(boolean clientAuth) {
         this.clientAuth = clientAuth;
+        return this;
     }
 
     public boolean isSslEnabled() {
         return sslEnabled;
     }
 
-    public void setSslEnabled(boolean sslEnabled) {
+    public SslProperties setSslEnabled(boolean sslEnabled) {
         this.sslEnabled = sslEnabled;
+        return this;
     }
 
     public String getKeystoreFile() {
         return keystoreFile;
     }
 
-    public void setKeystoreFile(String keystoreFile) {
+    public SslProperties setKeystoreFile(String keystoreFile) {
         this.keystoreFile = keystoreFile;
+        return this;
     }
 
     public String getKeystorePass() {
         return keystorePass;
     }
 
-    public void setKeystorePass(String keystorePass) {
+    public SslProperties setKeystorePass(String keystorePass) {
         this.keystorePass = keystorePass;
+        return this;
     }
 
     public String getKeyAlias() {
         return keyAlias;
     }
 
-    public void setKeyAlias(String keyAlias) {
+    public SslProperties setKeyAlias(String keyAlias) {
         this.keyAlias = keyAlias;
+        return this;
     }
 
     public String getKeystoreType() {
         return keystoreType;
     }
 
-    public void setKeystoreType(String keystoreType) {
+    public SslProperties setKeystoreType(String keystoreType) {
         this.keystoreType = keystoreType;
+        return this;
     }
 
     public String getKeystoreProvider() {
         return keystoreProvider;
     }
 
-    public void setKeystoreProvider(String keystoreProvider) {
+    public SslProperties setKeystoreProvider(String keystoreProvider) {
         this.keystoreProvider = keystoreProvider;
+        return this;
     }
 
     public String getTruststoreFile() {
         return truststoreFile;
     }
 
-    public void setTruststoreFile(String truststoreFile) {
+    public SslProperties setTruststoreFile(String truststoreFile) {
         this.truststoreFile = truststoreFile;
+        return this;
     }
 
     public String getTruststorePass() {
         return truststorePass;
     }
 
-    public void setTruststorePass(String truststorePass) {
+    public SslProperties setTruststorePass(String truststorePass) {
         this.truststorePass = truststorePass;
+        return this;
     }
 
     public String getTruststoreType() {
         return truststoreType;
     }
 
-    public void setTruststoreType(String truststoreType) {
+    public SslProperties setTruststoreType(String truststoreType) {
         this.truststoreType = truststoreType;
+        return this;
     }
 
     public String getTruststoreProvider() {
         return truststoreProvider;
     }
 
-    public void setTruststoreProvider(String truststoreProvider) {
+    public SslProperties setTruststoreProvider(String truststoreProvider) {
         this.truststoreProvider = truststoreProvider;
+        return this;
     }
 
     public String getProtocol() {
         return protocol;
     }
 
-    public void setProtocol(String protocol) {
+    public SslProperties setProtocol(String protocol) {
         this.protocol = protocol;
+        return this;
     }
 
     public String getCiphers() {
         return ciphers;
     }
 
-    public void setCiphers(String ciphers) {
+    public SslProperties setCiphers(String ciphers) {
         this.ciphers = ciphers;
+        return this;
     }
 
     public int getSessionCacheSize() {
         return sessionCacheSize;
     }
 
-    public void setSessionCacheSize(int sessionCacheSize) {
+    public SslProperties setSessionCacheSize(int sessionCacheSize) {
         this.sessionCacheSize = sessionCacheSize;
+        return this;
     }
 
     public int getSessionTimeoutSecs() {
         return sessionTimeoutSecs;
     }
 
-    public void setSessionTimeoutSecs(int sessionTimeoutSecs) {
+    public SslProperties setSessionTimeoutSecs(int sessionTimeoutSecs) {
         this.sessionTimeoutSecs = sessionTimeoutSecs;
+        return this;
     }
 
     public String getCrlFile() {
         return crlFile;
     }
 
-    public void setCrlFile(String crlFile) {
+    public SslProperties setCrlFile(String crlFile) {
         this.crlFile = crlFile;
+        return this;
     }
 }

@@ -23,4 +23,12 @@ public class X509Servlet extends HttpServlet {
         String reply = service.hello();
         resp.getOutputStream().write(reply.getBytes("UTF-8"));
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ApplicationContext context = (ApplicationContext) req.getSession().getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        SecuredService service = context.getBean(SecuredService.class);
+        String reply = service.fail();
+        resp.getOutputStream().write(reply.getBytes("UTF-8"));
+    }
 }

@@ -20,7 +20,7 @@ public class BruteforceTest extends TestSupertype {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
-    public void testAccessLog() throws Exception {
+    public void testBruteforce() throws Exception {
         HttpClient client = new HttpClient();
         client.getParams().setAuthenticationPreemptive(true);
         Credentials failcreds = new UsernamePasswordCredentials("admin", "fail");

@@ -14,15 +14,17 @@ public class HostProperties {
         return name;
     }
 
-    public void setName(String name) {
+    public HostProperties setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getErrorReportValveClass() {
         return errorReportValveClass;
     }
 
-    public void setErrorReportValveClass(String errorReportValveClass) {
+    public HostProperties setErrorReportValveClass(String errorReportValveClass) {
         this.errorReportValveClass = errorReportValveClass;
+        return this;
     }
 }

@@ -1,4 +1,4 @@
-package ru.concerteza.springtomcat.etomcat6.config;
+package ru.concerteza.springtomcat.etomcat6;
 
 import org.apache.catalina.core.StandardWrapper;
 

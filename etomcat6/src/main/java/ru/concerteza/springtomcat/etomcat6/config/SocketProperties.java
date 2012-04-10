@@ -34,175 +34,197 @@ public class SocketProperties {
         return directBuffer;
     }
 
-    public void setDirectBuffer(boolean directBuffer) {
+    public SocketProperties setDirectBuffer(boolean directBuffer) {
         this.directBuffer = directBuffer;
+        return this;
     }
 
     public int getRxBufSizeBytes() {
         return rxBufSizeBytes;
     }
 
-    public void setRxBufSizeBytes(int rxBufSizeBytes) {
+    public SocketProperties setRxBufSizeBytes(int rxBufSizeBytes) {
         this.rxBufSizeBytes = rxBufSizeBytes;
+        return this;
     }
 
     public int getTxBufSizeBytes() {
         return txBufSizeBytes;
     }
 
-    public void setTxBufSizeBytes(int txBufSizeBytes) {
+    public SocketProperties setTxBufSizeBytes(int txBufSizeBytes) {
         this.txBufSizeBytes = txBufSizeBytes;
+        return this;
     }
 
     public int getAppReadBufSizeBytes() {
         return appReadBufSizeBytes;
     }
 
-    public void setAppReadBufSizeBytes(int appReadBufSizeBytes) {
+    public SocketProperties setAppReadBufSizeBytes(int appReadBufSizeBytes) {
         this.appReadBufSizeBytes = appReadBufSizeBytes;
+        return this;
     }
 
     public int getAppWriteBufSizeBytes() {
         return appWriteBufSizeBytes;
     }
 
-    public void setAppWriteBufSizeBytes(int appWriteBufSizeBytes) {
+    public SocketProperties setAppWriteBufSizeBytes(int appWriteBufSizeBytes) {
         this.appWriteBufSizeBytes = appWriteBufSizeBytes;
+        return this;
     }
 
     public int getBufferPool() {
         return bufferPool;
     }
 
-    public void setBufferPool(int bufferPool) {
+    public SocketProperties setBufferPool(int bufferPool) {
         this.bufferPool = bufferPool;
+        return this;
     }
 
     public int getBufferPoolSizeBytes() {
         return bufferPoolSizeBytes;
     }
 
-    public void setBufferPoolSizeBytes(int bufferPoolSizeBytes) {
+    public SocketProperties setBufferPoolSizeBytes(int bufferPoolSizeBytes) {
         this.bufferPoolSizeBytes = bufferPoolSizeBytes;
+        return this;
     }
 
     public int getProcessorCache() {
         return processorCache;
     }
 
-    public void setProcessorCache(int processorCache) {
+    public SocketProperties setProcessorCache(int processorCache) {
         this.processorCache = processorCache;
+        return this;
     }
 
     public int getKeyCache() {
         return keyCache;
     }
 
-    public void setKeyCache(int keyCache) {
+    public SocketProperties setKeyCache(int keyCache) {
         this.keyCache = keyCache;
+        return this;
     }
 
     public int getEventCache() {
         return eventCache;
     }
 
-    public void setEventCache(int eventCache) {
+    public SocketProperties setEventCache(int eventCache) {
         this.eventCache = eventCache;
+        return this;
     }
 
     public boolean isTcpNoDelay() {
         return tcpNoDelay;
     }
 
-    public void setTcpNoDelay(boolean tcpNoDelay) {
+    public SocketProperties setTcpNoDelay(boolean tcpNoDelay) {
         this.tcpNoDelay = tcpNoDelay;
+        return this;
     }
 
     public boolean isSoKeepAlive() {
         return soKeepAlive;
     }
 
-    public void setSoKeepAlive(boolean soKeepAlive) {
+    public SocketProperties setSoKeepAlive(boolean soKeepAlive) {
         this.soKeepAlive = soKeepAlive;
+        return this;
     }
 
     public boolean isOoBInline() {
         return ooBInline;
     }
 
-    public void setOoBInline(boolean ooBInline) {
+    public SocketProperties setOoBInline(boolean ooBInline) {
         this.ooBInline = ooBInline;
+        return this;
     }
 
     public boolean isSoReuseAddress() {
         return soReuseAddress;
     }
 
-    public void setSoReuseAddress(boolean soReuseAddress) {
+    public SocketProperties setSoReuseAddress(boolean soReuseAddress) {
         this.soReuseAddress = soReuseAddress;
+        return this;
     }
 
     public boolean isSoLingerOn() {
         return soLingerOn;
     }
 
-    public void setSoLingerOn(boolean soLingerOn) {
+    public SocketProperties setSoLingerOn(boolean soLingerOn) {
         this.soLingerOn = soLingerOn;
+        return this;
     }
 
     public int getSoLingerTimeSec() {
         return soLingerTimeSec;
     }
 
-    public void setSoLingerTimeSec(int soLingerTimeSec) {
+    public SocketProperties setSoLingerTimeSec(int soLingerTimeSec) {
         this.soLingerTimeSec = soLingerTimeSec;
+        return this;
     }
 
     public int getSoTimeoutMs() {
         return soTimeoutMs;
     }
 
-    public void setSoTimeoutMs(int soTimeoutMs) {
+    public SocketProperties setSoTimeoutMs(int soTimeoutMs) {
         this.soTimeoutMs = soTimeoutMs;
+        return this;
     }
 
     public int getSoTrafficClass() {
         return soTrafficClass;
     }
 
-    public void setSoTrafficClass(int soTrafficClass) {
+    public SocketProperties setSoTrafficClass(int soTrafficClass) {
         this.soTrafficClass = soTrafficClass;
+        return this;
     }
 
     public int getPerformanceConnectionTime() {
         return performanceConnectionTime;
     }
 
-    public void setPerformanceConnectionTime(int performanceConnectionTime) {
+    public SocketProperties setPerformanceConnectionTime(int performanceConnectionTime) {
         this.performanceConnectionTime = performanceConnectionTime;
+        return this;
     }
 
     public int getPerformanceLatency() {
         return performanceLatency;
     }
 
-    public void setPerformanceLatency(int performanceLatency) {
+    public SocketProperties setPerformanceLatency(int performanceLatency) {
         this.performanceLatency = performanceLatency;
+        return this;
     }
 
     public int getPerformanceBandwidth() {
         return performanceBandwidth;
     }
 
-    public void setPerformanceBandwidth(int performanceBandwidth) {
+    public SocketProperties setPerformanceBandwidth(int performanceBandwidth) {
         this.performanceBandwidth = performanceBandwidth;
+        return this;
     }
 
     public int getUnlockTimeoutMs() {
         return unlockTimeoutMs;
     }
 
-    public void setUnlockTimeoutMs(int unlockTimeoutMs) {
+    public SocketProperties setUnlockTimeoutMs(int unlockTimeoutMs) {
         this.unlockTimeoutMs = unlockTimeoutMs;
+        return this;
     }
 }

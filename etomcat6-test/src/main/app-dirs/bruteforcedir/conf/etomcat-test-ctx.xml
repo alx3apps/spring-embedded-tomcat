@@ -6,7 +6,7 @@
            http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/security
-           http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<!-- ETomcat -->
     <bean id="etomcat" class="ru.concerteza.springtomcat.etomcat6.EmbeddedTomcat" destroy-method="stop" />
@@ -50,8 +50,8 @@
 
     <bean id="inMemoryAuthenticationProvider"  class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
         <property name="userDetailsService" ref="propertiesUserDetails"/>
-        <!-- prevents password erasure in  -->
-        <property name="includeDetailsObject" value="false" />
+        <!-- prevents password erasure in 3.0 -->
+        <!--<property name="includeDetailsObject" value="false" />-->
     </bean>
 
     <security:user-service id="propertiesUserDetails">

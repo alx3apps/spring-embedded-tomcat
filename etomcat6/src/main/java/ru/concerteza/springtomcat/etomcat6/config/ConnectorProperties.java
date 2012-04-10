@@ -27,119 +27,134 @@ public class ConnectorProperties {
         return enableLookups;
     }
 
-    public void setEnableLookups(boolean enableLookups) {
+    public ConnectorProperties setEnableLookups(boolean enableLookups) {
         this.enableLookups = enableLookups;
+        return this;
     }
 
     public int getMaxPostSizeBytes() {
         return maxPostSizeBytes;
     }
 
-    public void setMaxPostSizeBytes(int maxPostSizeBytes) {
+    public ConnectorProperties setMaxPostSizeBytes(int maxPostSizeBytes) {
         this.maxPostSizeBytes = maxPostSizeBytes;
+        return this;
     }
 
     public String getUriEncoding() {
         return uriEncoding;
     }
 
-    public void setUriEncoding(String uriEncoding) {
+    public ConnectorProperties setUriEncoding(String uriEncoding) {
         this.uriEncoding = uriEncoding;
+        return this;
     }
 
     public int getMaxSavePostSizeBytes() {
         return maxSavePostSizeBytes;
     }
 
-    public void setMaxSavePostSizeBytes(int maxSavePostSizeBytes) {
+    public ConnectorProperties setMaxSavePostSizeBytes(int maxSavePostSizeBytes) {
         this.maxSavePostSizeBytes = maxSavePostSizeBytes;
+        return this;
     }
 
     public int getAcceptCount() {
         return acceptCount;
     }
 
-    public void setAcceptCount(int acceptCount) {
+    public ConnectorProperties setAcceptCount(int acceptCount) {
         this.acceptCount = acceptCount;
+        return this;
     }
 
     public String getCompressableMimeType() {
         return compressableMimeType;
     }
 
-    public void setCompressableMimeType(String compressableMimeType) {
+    public ConnectorProperties setCompressableMimeType(String compressableMimeType) {
         this.compressableMimeType = compressableMimeType;
+        return this;
     }
 
     public String getCompression() {
         return compression;
     }
 
-    public void setCompression(String compression) {
+    public ConnectorProperties setCompression(String compression) {
         this.compression = compression;
+        return this;
     }
 
     public int getCompressionMinSizeBytes() {
         return compressionMinSizeBytes;
     }
 
-    public void setCompressionMinSizeBytes(int compressionMinSizeBytes) {
+    public ConnectorProperties setCompressionMinSizeBytes(int compressionMinSizeBytes) {
         this.compressionMinSizeBytes = compressionMinSizeBytes;
+        return this;
     }
 
     public String getNoCompressionUserAgents() {
         return noCompressionUserAgents;
     }
 
-    public void setNoCompressionUserAgents(String noCompressionUserAgents) {
+    public ConnectorProperties setNoCompressionUserAgents(String noCompressionUserAgents) {
         this.noCompressionUserAgents = noCompressionUserAgents;
+        return this;
     }
 
     public boolean isDisableUploadTimeout() {
         return disableUploadTimeout;
     }
 
-    public void setDisableUploadTimeout(boolean disableUploadTimeout) {
+    public ConnectorProperties setDisableUploadTimeout(boolean disableUploadTimeout) {
         this.disableUploadTimeout = disableUploadTimeout;
+        return this;
     }
 
     public int getMaxHttpHeaderSizeBytes() {
         return maxHttpHeaderSizeBytes;
     }
 
-    public void setMaxHttpHeaderSizeBytes(int maxHttpHeaderSizeBytes) {
+    public ConnectorProperties setMaxHttpHeaderSizeBytes(int maxHttpHeaderSizeBytes) {
         this.maxHttpHeaderSizeBytes = maxHttpHeaderSizeBytes;
+        return this;
     }
 
     public int getMaxKeepAliveRequests() {
         return maxKeepAliveRequests;
     }
 
-    public void setMaxKeepAliveRequests(int maxKeepAliveRequests) {
+    public ConnectorProperties setMaxKeepAliveRequests(int maxKeepAliveRequests) {
         this.maxKeepAliveRequests = maxKeepAliveRequests;
+        return this;
     }
 
     public String getServer() {
         return server;
     }
 
-    public void setServer(String server) {
+    public ConnectorProperties setServer(String server) {
         this.server = server;
+        return this;
     }
 
     public int getSocketBufferBytes() {
         return socketBufferBytes;
     }
 
-    public void setSocketBufferBytes(int socketBufferBytes) {
+    public ConnectorProperties setSocketBufferBytes(int socketBufferBytes) {
         this.socketBufferBytes = socketBufferBytes;
+        return this;
     }
 
     public boolean isUseComet() {
         return useComet;
     }
 
-    public void setUseComet(boolean useComet) {
+    public ConnectorProperties setUseComet(boolean useComet) {
         this.useComet = useComet;
+        return this;
     }
 }

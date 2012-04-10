@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateException;
 
+import static org.junit.Assert.assertEquals;
+import static ru.concerteza.springtomcat.etomcat6.SslHelper.setupClientSsl;
+
 /**
  * User: alexey
  * Date: 8/28/11
@@ -40,31 +43,15 @@ public class X509Test extends TestSupertype {
         client.executeMethod(get);
         byte[] responseBody = get.getResponseBody();
         String content = new String(responseBody, "UTF-8");
-        Assert.assertEquals("Servlet get fail", SecuredService.GREETING, content);
+        assertEquals("Servlet get fail", SecuredService.GREETING, content);
+        // test assess denied
+        HttpMethod post = new PostMethod("https://127.0.0.1:8443/etomcat_x509");
+        client.executeMethod(post);
+        assertEquals("Method security fail get fail", 403, post.getStatusCode());
     }
 
     @Override
     protected String dirname() {
         return "x509dir";
-    }
-
-    protected void setupClientSsl() throws NoSuchProviderException, KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, KeyManagementException, UnrecoverableKeyException {
-        // truststore
-        KeyStore trustStore = KeyStore.getInstance("JKS", "SUN");
-        trustStore.load(TestSupertype.class.getResourceAsStream("/client-truststore.jks"), "amber%".toCharArray());
-        String alg = KeyManagerFactory.getDefaultAlgorithm();
-        TrustManagerFactory fac = TrustManagerFactory.getInstance(alg);
-        fac.init(trustStore);
-        // keystore
-        KeyStore keystore = KeyStore.getInstance("PKCS12", "SunJSSE");
-        keystore.load(X509Test.class.getResourceAsStream("/etomcat_client.p12"), "etomcat".toCharArray());
-        String keyAlg = KeyManagerFactory.getDefaultAlgorithm();
-        KeyManagerFactory keyFac = KeyManagerFactory.getInstance(keyAlg);
-        keyFac.init(keystore, "etomcat".toCharArray());
-        // context
-        SSLContext ctx = SSLContext.getInstance("TLS", "SunJSSE");
-        ctx.init(keyFac.getKeyManagers(), fac.getTrustManagers(), new SecureRandom());
-        SslContextedSecureProtocolSocketFactory secureProtocolSocketFactory = new SslContextedSecureProtocolSocketFactory(ctx);
-        Protocol.registerProtocol("https", new Protocol("https", (ProtocolSocketFactory) secureProtocolSocketFactory, 8443));
     }
 }

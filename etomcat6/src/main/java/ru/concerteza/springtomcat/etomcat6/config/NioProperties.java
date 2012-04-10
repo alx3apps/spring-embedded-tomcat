@@ -23,71 +23,80 @@ public class NioProperties {
         return useSendfile;
     }
 
-    public void setUseSendfile(boolean useSendfile) {
+    public NioProperties setUseSendfile(boolean useSendfile) {
         this.useSendfile = useSendfile;
+        return this;
     }
 
     public int getAcceptorThreadCount() {
         return acceptorThreadCount;
     }
 
-    public void setAcceptorThreadCount(int acceptorThreadCount) {
+    public NioProperties setAcceptorThreadCount(int acceptorThreadCount) {
         this.acceptorThreadCount = acceptorThreadCount;
+        return this;
     }
 
     public int getAcceptorThreadPriority() {
         return acceptorThreadPriority;
     }
 
-    public void setAcceptorThreadPriority(int acceptorThreadPriority) {
+    public NioProperties setAcceptorThreadPriority(int acceptorThreadPriority) {
         this.acceptorThreadPriority = acceptorThreadPriority;
+        return this;
     }
 
     public int getPollerThreadCount() {
         return pollerThreadCount;
     }
 
-    public void setPollerThreadCount(int pollerThreadCount) {
+    public NioProperties setPollerThreadCount(int pollerThreadCount) {
         this.pollerThreadCount = pollerThreadCount;
+        return this;
     }
 
     public int getPollerThreadPriority() {
         return pollerThreadPriority;
     }
 
-    public void setPollerThreadPriority(int pollerThreadPriority) {
+    public NioProperties setPollerThreadPriority(int pollerThreadPriority) {
         this.pollerThreadPriority = pollerThreadPriority;
+        return this;
     }
 
     public int getSelectorTimeoutMs() {
         return selectorTimeoutMs;
     }
 
-    public void setSelectorTimeoutMs(int selectorTimeoutMs) {
+    public NioProperties setSelectorTimeoutMs(int selectorTimeoutMs) {
         this.selectorTimeoutMs = selectorTimeoutMs;
+        return this;
     }
 
     public int getOomParachute() {
         return oomParachute;
     }
 
-    public void setOomParachute(int oomParachute) {
+    public NioProperties setOomParachute(int oomParachute) {
         this.oomParachute = oomParachute;
+        return this;
     }
 
     public int getMaxSelectors() {
         return maxSelectors;
     }
 
-    public void setMaxSelectors(int maxSelectors) {
+    public NioProperties setMaxSelectors(int maxSelectors) {
         this.maxSelectors = maxSelectors;
+        return this;
     }
 
     public int getMaxSpareSelectors() {
         return maxSpareSelectors;
     }
 
-    public void setMaxSpareSelectors(int maxSpareSelectors) {
+    public NioProperties setMaxSpareSelectors(int maxSpareSelectors) {
         this.maxSpareSelectors = maxSpareSelectors;
+        return this;
     }
 }

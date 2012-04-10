@@ -1,4 +1,4 @@
-package ru.concerteza.springtomcat.etomcat6;
+package ru.concerteza.springtomcat.etomcat6.context;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.support.AbstractXmlApplicationContext;
@@ -12,11 +12,11 @@ import javax.servlet.ServletContext;
  * User: alexey
  * Date: 7/24/11
  */
-public class EmbeddedSpringContext extends AbstractXmlApplicationContext implements WebApplicationContext {
+public class EmbeddedXmlSpringContext extends AbstractXmlApplicationContext implements EmbeddedSpringContext {
 
     private ServletContext servletContext;
 
-    public EmbeddedSpringContext(String configLocation) throws BeansException {
+    public EmbeddedXmlSpringContext(String configLocation) throws BeansException {
         super(null);
         setConfigLocations(new String[]{configLocation});
         refresh();
@@ -27,6 +27,7 @@ public class EmbeddedSpringContext extends AbstractXmlApplicationContext impleme
         return servletContext;
     }
 
+    @Override
     public void bind(ServletContext servletContext) {
         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this);
         this.servletContext = servletContext;

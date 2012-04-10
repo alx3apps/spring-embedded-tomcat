@@ -119,16 +119,17 @@ Embedded startup proccess is quite simple:
       executor.start();
       embedded.start();
 
-But it has one thin point: we want to run out application as CLI application using `ClassPathXmlApplicationContext`.
+But it has one thin point: we want to run out application as CLI application using `ClassPathXmlApplicationContext` or `AnnotationConfigApplicationContext`.
 But web libraries that integrates with spring (Wicket, CXF etc.) want to have `WebApplicationContext`, and want to have it in it's standard
 place in `ServletContext` under `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`.
 
-So we must use spring context that is `ClassPath` and `Web` one simultaniously and can bind itself to ServletContext
-(and vice versa):
+`EmbeddedSpringContext` is an interface extending `WebApplicationContext` with additional `bind` method, that binds
+spring `ApplicationContext` to tomcats `ServletContext` and vice versa. Embedded tomcat requires concrete spring context, that implements `EmbeddedSpringContext`.
+Implementation example:
 
-    public class EmbeddedSpringContext extends AbstractXmlApplicationContext implements WebApplicationContext {
+    public class EmbeddedXmlSpringContext extends AbstractXmlApplicationContext implements EmbeddedSpringContext {
         private ServletContext servletContext;
-        public EmbeddedSpringContext(String configLocation) throws BeansException {
+        public EmbeddedXmlSpringContext(String configLocation) throws BeansException {
             super(null);
             setConfigLocations(new String[]{configLocation});
             refresh();
@@ -142,7 +143,9 @@ So we must use spring context that is `ClassPath` and `Web` one simultaniously a
         }
     }
 
-It makes all the magic. Besides many config classes some intresting are:
+For Spring 3.1 no-xml config threre is another implementation `EmbeddedAnnotationSpringContext` that extends `AnnotationConfigApplicationContext`.
+
+Besides many config classes some intresting are:
 
  - `EmbeddedContextConfig` - to use standard `web.xml` parsing
  - `EmbeddedDirContext` and `EmbeddedLoader` - to be able to run without accessing any content on HD,
@@ -219,6 +222,25 @@ More complex usage example:
             </bean>
         </property>
     </bean>
+
+###Spring 3.1 Java Based Configuration
+
+Java config example:
+
+    @Bean(destroyMethod = "stop")
+    public EmbeddedTomcat etomcat() {
+        return new EmbeddedTomcat()
+                .setGeneralProps(new GeneralProperties().setPort(8443))
+                .setSslProps(new SslProperties()
+                        .setSslEnabled(true)
+                        .setKeystoreFile("etomcat.p12")
+                        .setKeystorePass("storepass")
+                        .setKeyAlias("etomcat_test")
+                        .setClientAuth(true)
+                        .setTruststoreFile("truststore.jks")
+                        .setTruststorePass("amber%")
+                        .setTruststoreType("JKS"));
+    }
 
 In examples and tests many important properties (like web.xml naming and location) are omitted to use default value.
 You may find these default values and other options in properties classes in package `ru.concerteza.springtomcat.etomcat6.config`

@@ -14,6 +14,7 @@ import org.apache.naming.resources.FileDirContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import ru.concerteza.springtomcat.etomcat6.config.*;
+import ru.concerteza.springtomcat.etomcat6.context.EmbeddedSpringContext;
 
 import java.io.File;
 
@@ -338,39 +339,48 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         this.springContext = springContext;
     }
 
-    public void setGeneralProps(GeneralProperties generalProps) {
+    public EmbeddedTomcat setGeneralProps(GeneralProperties generalProps) {
         this.generalProps = generalProps;
+        return this;
     }
 
-    public void setFsProps(FsProperties fsProps) {
+    public EmbeddedTomcat setFsProps(FsProperties fsProps) {
         this.fsProps = fsProps;
+        return this;
     }
 
-    public void setHostProps(HostProperties hostProps) {
+    public EmbeddedTomcat setHostProps(HostProperties hostProps) {
         this.hostProps = hostProps;
+        return this;
     }
 
-    public void setContextProps(ContextProperties contextProps) {
+    public EmbeddedTomcat setContextProps(ContextProperties contextProps) {
         this.contextProps = contextProps;
+        return this;
     }
 
-    public void setConnectorProps(ConnectorProperties connectorProps) {
+    public EmbeddedTomcat setConnectorProps(ConnectorProperties connectorProps) {
         this.connectorProps = connectorProps;
+        return this;
     }
 
-    public void setNioProps(NioProperties nioProps) {
+    public EmbeddedTomcat setNioProps(NioProperties nioProps) {
         this.nioProps = nioProps;
+        return this;
     }
 
-    public void setSocketProps(SocketProperties socketProps) {
+    public EmbeddedTomcat setSocketProps(SocketProperties socketProps) {
         this.socketProps = socketProps;
+        return this;
     }
 
-    public void setSslProps(SslProperties sslProps) {
+    public EmbeddedTomcat setSslProps(SslProperties sslProps) {
         this.sslProps = sslProps;
+        return this;
     }
 
-    public void setExecutorProps(ExecutorProperties executorProps) {
+    public EmbeddedTomcat setExecutorProps(ExecutorProperties executorProps) {
         this.executorProps = executorProps;
+        return this;
     }
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<!-- Use this for deafault installer only, for real customization you need custom panels -->
+<installation version="1.0">
+    <info>
+        <appname>My Application</appname>
+        <appversion>0.42</appversion>
+        <appsubpath>myapp</appsubpath>
+        <uninstaller path="${INSTALL_PATH}/uninstall"/>
+        <!-- http://izpack.org/documentation/installation-files.html#built-in-conditions -->
+        <!--<run-privileged condition="izpack.windowsinstall.vista|izpack.macinstall"/>-->
+    </info>
+    <guiprefs width="670" height="450" resizable="no">
+        <laf name="looks">
+            <os family="unix"/>
+        </laf>
+        <laf name="looks">
+            <os family="windows"/>
+        </laf>
+    </guiprefs>
+    <locale>
+        <!-- http://izpack.org/documentation/installation-files.html#the-localization-element-locale -->
+        <langpack iso3="eng"/>
+    </locale>
+
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="PacksPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="SimpleFinishPanel"/>
+    </panels>
+
+    <packs>
+        <pack name="Application Necessary Files" required="yes" installGroups="necessary_files">
+            <description>Files that are necessary for application to run</description>
+            <fileset dir="dist" targetdir="${INSTALL_PATH}"/>
+            <file src="resources/make_executable.sh" targetdir="${INSTALL_PATH}/bin">
+                <os family="unix"/>
+            </file>
+            <executable targetfile="${INSTALL_PATH}/bin/make_executable.sh" stage="postinstall" >
+                <os family="unix"/>
+            </executable>
+        </pack>
+        <!--pack name="Системная служба windows" required="no" preselected="yes" os="windows" installGroups="Служба ННПФ ЛПК">
+            <description>Служба ННПФ ЛПК будет установлена в виде системной службы</description>
+            <executable targetfile="$INSTALL_PATH/bin/service.bat"
+                        stage="postinstall"
+                        keep="true">
+                <args>
+                    <arg value="install"/>
+                    <arg value="$INSTALL_PATH"/>
+                </args>
+            </executable>
+             <executable targetfile="$INSTALL_PATH/bin/service.bat"
+                        stage="uninstall"
+                        keep="false">
+                <args>
+                    <arg value="remove"/>
+                    <arg value="$INSTALL_PATH"/>
+                </args>
+            </executable>
+        </pack-->
+    </packs>
+
+</installation>

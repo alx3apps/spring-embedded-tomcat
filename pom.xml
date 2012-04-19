@@ -13,6 +13,8 @@
         <module>etomcat6</module>
         <module>etomcat6-test</module>
         <module>components</module>
+        <module>etomcat6-installer</module>
+        <module>maven-etomcat6-installer-plugin</module>
     </modules>
 
     <properties>

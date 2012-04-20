@@ -1,9 +1,6 @@
 package ru.concerteza.springtomcat.installer;
 
-import com.izforge.izpack.api.data.binding.IzpackProjectInstaller;
 import com.izforge.izpack.compiler.CompilerConfig;
-import com.izforge.izpack.compiler.container.CompilerContainer;
-import com.izforge.izpack.compiler.data.CompilerData;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.maven.artifact.Artifact;
@@ -19,7 +16,6 @@ import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Set;
 
-import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static ru.concerteza.util.CtzCopyCheckLMUtils.copyDirectoryToDirectory;
 import static ru.concerteza.util.CtzCopyCheckLMUtils.copyFile;
@@ -60,7 +56,7 @@ public class InstallerMojo extends AbstractMojo {
     private File installFile;
 
     /**
-     * Base directory of compilation process
+     * Output file (installer)
      *
      * @parameter expression="${installer.outputFile}" default-value="${project.build.directory}/${project.build.finalName}-installer.jar"
      */
@@ -104,17 +100,19 @@ public class InstallerMojo extends AbstractMojo {
     }
 
     private void prepareDirs() throws IOException {
-        if (baseDir.exists()) {
-            if (baseDir.isFile()) throw new IOException("Base dir IO error: " + baseDir.getAbsolutePath());
+        createDir(baseDir);
+        createDir(distDir);
+        createDir(new File(distDir, "logs"));
+        createDir(new File(distDir, "work"));
+        createDir(new File(distDir, "uninstall"));
+    }
+
+    private void createDir(File dir) throws IOException {
+         if (dir.exists()) {
+            if (dir.isFile()) throw new IOException("Dir IO error: " + dir.getAbsolutePath());
         } else {
-            boolean res = baseDir.mkdirs();
-            if (!res) throw new IOException("Cannot create base dir: " + baseDir.getAbsolutePath());
-        }
-        if (distDir.exists()) {
-            if (distDir.isFile()) throw new IOException("Dist dir IO error: " + distDir.getAbsolutePath());
-        } else {
-            boolean res = distDir.mkdirs();
-            if (!res) throw new IOException("Cannot create dist dir: " + distDir.getAbsolutePath());
+            boolean res = dir.mkdirs();
+            if (!res) throw new IOException("Cannot create dir: " + dir.getAbsolutePath());
         }
     }
 
@@ -153,13 +151,8 @@ public class InstallerMojo extends AbstractMojo {
     }
 
     private void runIzPackCompiler() throws Exception {
-        CompilerData compilerData = new CompilerData(installFile.getAbsolutePath(), baseDir.getAbsolutePath(), outputFile.getAbsolutePath());
-        CompilerContainer compilerContainer = new CompilerContainer();
-        compilerContainer.initBindings();
-        compilerContainer.addConfig("installFile", installFile.getAbsolutePath());
-        compilerContainer.getComponent(IzpackProjectInstaller.class);
-        compilerContainer.addComponent(CompilerData.class, compilerData);
-        CompilerConfig compilerConfig = compilerContainer.getComponent(CompilerConfig.class);
+        CompilerConfig compilerConfig = new CompilerConfig(installFile.getAbsolutePath(), baseDir.getAbsolutePath(), "standard", outputFile.getAbsolutePath());
+        CompilerConfig.setIzpackHome(baseDir.getAbsolutePath());
         compilerConfig.executeCompiler();
     }
 }

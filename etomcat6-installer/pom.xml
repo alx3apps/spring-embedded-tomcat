@@ -73,7 +73,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.concerteza.springtomcat.app.Launcher</mainClass>
+                            <mainClass>ru.concerteza.springtomcat.app.ConsoleLauncher</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>../lib</classpathPrefix>
                         </manifest>
@@ -90,6 +90,9 @@
                         <goals>
                             <goal>installer</goal>
                         </goals>
+                        <configuration>
+                            <outputFile>/home/alexey/.VirtualBox/shared/etomcat/installer.jar</outputFile>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

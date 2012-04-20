@@ -22,51 +22,34 @@ import static java.lang.System.setProperty;
  * User: alexey
  * Date: 4/19/12
  */
-public class Launcher {
-    private static final File APP_ROOT = CtzIOUtils.codeSourceDir(Launcher.class).getParentFile();
-    private static final File LOG4J_CONFIG = new File(APP_ROOT, "conf/log4j.properties");
-
+public class ConsoleLauncher extends BaseLauncher {
     private static final String HELP_OPTION = "help";
     private static final String VERSION_OPTION = "version";
     private static final String CONFIG_OPTION = "config";
 
     public static void main(String[] args) throws Exception {
         Options options = new Options();
-
         try {
             options.addOption("h", HELP_OPTION, false, "show this page");
             options.addOption("v", VERSION_OPTION, false, "show version");
             options.addOption("c", CONFIG_OPTION, true, "config file");
             CommandLine cline = new GnuParser().parse(options, args);
-            out.println("Initializing application...");
-            ApplicationContext ctx = loadContext(cline);
-            ctx.getBean(EmbeddedTomcat.class).start(APP_ROOT);
-            while (true) {
-                Thread.sleep(5 * 60 * 1000);
-                logHeartbeat();
+            if(cline.hasOption(HELP_OPTION)) {
+                throw new ParseException("Printing help page");
+            } else if(cline.hasOption(VERSION_OPTION)) {
+                out.println("ETomcat6 Based Application Installer v. 1.0");
+            } else {
+                resolveConfig(cline);
+                start();
+                while (true) {
+                    Thread.sleep(5 * 60 * 1000);
+                    logHeartbeat();
+                }
             }
         } catch (ParseException e) {
             HelpFormatter formatter = new HelpFormatter();
             out.println(e.getMessage());
             formatter.printHelp("startup.{sh|bat} [-c app.properties]", options);
-        }
-    }
-
-    private static AbstractApplicationContext loadContext(CommandLine cline) {
-        setProperty("tier.app_root", APP_ROOT.getPath());
-        configLog4j();
-        resolveConfig(cline);
-        AbstractApplicationContext ctx = new EmbeddedAnnotationSpringContext(Config.class);
-        ctx.registerShutdownHook();
-        return ctx;
-    }
-
-    private static void configLog4j() {
-        try {
-            Log4jConfigurer.initLogging(LOG4J_CONFIG.getPath());
-        } catch (FileNotFoundException e) {
-            err.println("Cannot open file: " + LOG4J_CONFIG.getAbsolutePath());
-            throw new UnhandledException(e);
         }
     }
 
@@ -82,7 +65,7 @@ public class Launcher {
 
     // http://en.wikipedia.org/wiki/Heart_sounds
     private static void logHeartbeat() {
-        Logger logger = LoggerFactory.getLogger(Launcher.class);
+        Logger logger = LoggerFactory.getLogger(ConsoleLauncher.class);
         logger.info("lub-dub");
     }
 }

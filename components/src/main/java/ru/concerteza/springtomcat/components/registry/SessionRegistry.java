@@ -1,6 +1,8 @@
 package ru.concerteza.springtomcat.components.registry;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import ru.concerteza.springtomcat.components.registry.concurrent.ConcurrentSessionStrategy;
+import ru.concerteza.springtomcat.components.registry.concurrent.InvalidateExistedStrategy;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -21,12 +23,17 @@ public class SessionRegistry {
     private final Map<String, String> idMap = new HashMap<String, String>();
     private final Object lock = new Object();
 
+    private ConcurrentSessionStrategy concurrentSessionStrategy = new InvalidateExistedStrategy();
+
+    public void setConcurrentSessionStrategy(ConcurrentSessionStrategy concurrentSessionStrategy) {
+        this.concurrentSessionStrategy = concurrentSessionStrategy;
+    }
+
     public void put(String login, HttpSession session) {
         synchronized (lock) {
             HttpSession existed = authorMap.get(login);
             if(null != existed && !existed.getId().equals(session.getId())) {
-                // logging out other user with same login
-                existed.invalidate();
+                concurrentSessionStrategy.onExisted(existed, session);
             }
             register(login, session);
         }

@@ -17,14 +17,20 @@
             <security:filter-chain pattern="/**"
                                    filters="securityContextPersistenceFilter,
                                             anonymousAuthenticationFilter,
+                                            remoteIpFilter,
                                             sessionRegistryFilter,
                                             exceptionTranslationFilter,
                                             filterSecurityInterceptor"/>
         </security:filter-chain-map>
     </bean>
 
+    <bean id="remoteIpFilter" class="ru.concerteza.springtomcat.components.registry.concurrent.RemoteIpFilter"/>
+
+    <bean id="oneSessionAllowedStrategy" class="ru.concerteza.springtomcat.components.registry.concurrent.OneSessionAllowedStrategy"/>
     <!-- deliberately NIH version of org.springframework.security.core.session.SessionRegistry -->
-    <bean id="sessionRegistry" class="ru.concerteza.springtomcat.components.registry.SessionRegistry"/>
+    <bean id="sessionRegistry" class="ru.concerteza.springtomcat.components.registry.SessionRegistry">
+        <property name="concurrentSessionStrategy" ref="oneSessionAllowedStrategy" />
+    </bean>
     <bean id="sessionRegistryFilter" class="ru.concerteza.springtomcat.components.registry.SessionIdRegistryFilter">
         <property name="registry" ref="sessionRegistry" />
     </bean>

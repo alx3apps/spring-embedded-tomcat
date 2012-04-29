@@ -6,7 +6,7 @@
     <parent>
         <groupId>ru.concerteza.spring-embedded-tomcat</groupId>
         <artifactId>spring-embedded-tomcat</artifactId>
-        <version>1.4</version>
+        <version>1.4.1</version>
     </parent>
     <artifactId>etomcat6</artifactId>
     <packaging>jar</packaging>

@@ -12,7 +12,8 @@ import static ru.concerteza.springtomcat.components.registry.concurrent.RemoteIp
 public class OneSessionAllowedStrategy implements ConcurrentSessionStrategy {
     @Override
     public void onExisted(HttpSession existed, HttpSession current) {
-        String remoteIp = (String) existed.getAttribute(REMOTE_IP_ATTRIBUTE);
-        throw new ConcurrentSessionException(defaultString(remoteIp, "UNKNOWN"));
+        String existedIp = (String) existed.getAttribute(REMOTE_IP_ATTRIBUTE);
+        String currentIp = (String) current.getAttribute(REMOTE_IP_ATTRIBUTE);
+        if(!existedIp.equals(currentIp)) throw new ConcurrentSessionException(defaultString(existedIp, "UNKNOWN"));
     }
 }

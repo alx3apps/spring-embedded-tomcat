@@ -30,6 +30,10 @@ public class RegistryTest extends TestSupertype {
             byte[] responseBody = get.getResponseBody();
             String content = new String(responseBody, "UTF-8");
             assertEquals("Registry fail", "true", content);
+            // subsequent requests
+            HttpMethod get1 = new GetMethod("http://127.0.0.1:8080/etomcat_test");
+            client.executeMethod(get1);
+            assertEquals(HttpServletResponse.SC_OK, get1.getStatusCode());
         }
         {
             // concurrent test

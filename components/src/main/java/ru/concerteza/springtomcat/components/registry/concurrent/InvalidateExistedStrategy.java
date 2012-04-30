@@ -1,5 +1,7 @@
 package ru.concerteza.springtomcat.components.registry.concurrent;
 
+import ru.concerteza.springtomcat.components.registry.SessionRegistry;
+
 import javax.servlet.http.HttpSession;
 
 /**
@@ -8,7 +10,9 @@ import javax.servlet.http.HttpSession;
  */
 public class InvalidateExistedStrategy implements ConcurrentSessionStrategy {
     @Override
-    public void onExisted(HttpSession existed, HttpSession current) throws ConcurrentSessionException {
+    public void onExisted(SessionRegistry.LockBoundedManager manager, String login, HttpSession existed, HttpSession current) throws ConcurrentSessionException {
+        manager.remove(existed);
         existed.invalidate();
+        manager.put(login, current);
     }
 }

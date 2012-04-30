@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.concerteza.spring-embedded-tomcat</groupId>
     <artifactId>spring-embedded-tomcat</artifactId>
-    <version>1.4.1</version>
+    <version>1.4.2</version>
     <name>Apache Tomcat Integration With Spring Framework</name>
     <packaging>pom</packaging>
 
@@ -19,7 +19,6 @@
         <project.specification_vendor>Con Certeza LLC</project.specification_vendor>
         <project.implementation_vendor>${project.specification_vendor}</project.implementation_vendor>
         <tomcat6.version>6.0.32</tomcat6.version>
-        <!-- etomcat6 is compatible with 3.0 -->
         <spring.version>3.1.0.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

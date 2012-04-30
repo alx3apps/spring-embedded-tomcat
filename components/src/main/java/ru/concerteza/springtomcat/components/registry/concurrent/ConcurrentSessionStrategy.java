@@ -10,6 +10,5 @@ import javax.servlet.http.HttpSession;
  * Date: 4/29/12
  */
 public interface ConcurrentSessionStrategy {
-    // new session will replace existed if no exception thrown
-    void onExisted(HttpSession existed, HttpSession current) throws ConcurrentSessionException;
+    void onExisted(SessionRegistry.LockBoundedManager manager, String login, HttpSession existed, HttpSession current) throws ConcurrentSessionException;
 }

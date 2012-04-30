@@ -17,6 +17,7 @@ import java.util.Map;
 
 // <!-- http://static.springsource.org/spring-security/site/docs/3.0.x/reference/session-mgmt.html#concurrent-sessions -->
 public class SessionRegistry {
+    private final LockBoundedManager lockBoundedManager = new LockBoundedManager();
     // login to session map
     private final Map<String, HttpSession> authorMap = new HashMap<String, HttpSession>();
     // session id to login map
@@ -32,10 +33,13 @@ public class SessionRegistry {
     public void put(String login, HttpSession session) {
         synchronized (lock) {
             HttpSession existed = authorMap.get(login);
-            if(null != existed && !existed.getId().equals(session.getId())) {
-                concurrentSessionStrategy.onExisted(existed, session);
+            if(null != existed) {
+                if(!existed.getId().equals(session.getId())) {
+                    concurrentSessionStrategy.onExisted(lockBoundedManager, login, existed, session);
+                }
+            } else {
+                register(login, session);
             }
-            register(login, session);
         }
     }
 
@@ -83,8 +87,17 @@ public class SessionRegistry {
     }
 
     private void register(String login, HttpSession session) {
-        authorMap.put(login, session);
-        idMap.put(session.getId(), login);
+        HttpSession existedSession = authorMap.put(login, session);
+        String existedLogin = idMap.put(session.getId(), login);
+        if(null != existedSession || null != existedLogin) {
+            String authorMapDump = authorMap.toString();
+            String idMapDump = idMap.toString();
+            unregister(login);
+            unregister(session);
+            throw new IllegalStateException("Preventing registry state corruption," +
+                    " authorMap: " + authorMapDump + ", idMap: " + idMapDump +
+                    ", login: " + login + ", session: " + session + ", sessionId" + session.getId());
+        }
     }
 
     private void unregister(String login) {
@@ -104,6 +117,23 @@ public class SessionRegistry {
             // cannot happen
             if(!session.equals(sameSession)) throw new IllegalStateException("Session registry state corrupted," +
                     " authorMap: " + authorMap + ", idMap: " + idMap);
+        }
+    }
+
+    public class LockBoundedManager {
+        LockBoundedManager() {
+        }
+
+        public void put(String login, HttpSession session) {
+            register(login, session);
+        }
+
+        public void remove(String login) {
+            unregister(login);
+        }
+
+        public void remove(HttpSession session) {
+            unregister(session);
         }
     }
 }

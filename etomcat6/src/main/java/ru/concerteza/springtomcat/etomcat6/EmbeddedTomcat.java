@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import ru.concerteza.springtomcat.etomcat6.config.*;
 import ru.concerteza.springtomcat.etomcat6.context.EmbeddedSpringContext;
+import ru.concerteza.springtomcat.etomcat6.valves.PostCharacterEncodingValve;
 
 import java.io.File;
 
@@ -145,6 +146,12 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         context.setCachingAllowed(contextProps.isCachingAllowed());
         context.setUnloadDelay(contextProps.getUnloadDelayMs());
         context.setSessionTimeout(contextProps.getSessionTimeoutMinutes());
+
+        if(contextProps.getPostCharacterEncoding().length() > 0) {
+            logger.debug("UTF-8 encoding enabled for all requests");
+            Valve valve = new PostCharacterEncodingValve(contextProps.getPostCharacterEncoding());
+            context.addValve(valve);
+        }
 
         context.setLoader(new EmbeddedLoader());
         if(generalProps.isUseFsResources()) {

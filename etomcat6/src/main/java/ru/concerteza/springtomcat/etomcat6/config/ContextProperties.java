@@ -16,6 +16,7 @@ public class ContextProperties {
     private int unloadDelayMs = 2000;
     private int maxActiveSessions = -1;
     private int sessionTimeoutMinutes = 10;
+    private String postCharacterEncoding = "UTF-8";
 
     public boolean isCookies() {
         return cookies;
@@ -95,6 +96,15 @@ public class ContextProperties {
 
     public ContextProperties setSessionTimeoutMinutes(int sessionTimeoutMinutes) {
         this.sessionTimeoutMinutes = sessionTimeoutMinutes;
+        return this;
+    }
+
+    public String getPostCharacterEncoding() {
+        return postCharacterEncoding;
+    }
+
+    public ContextProperties setPostCharacterEncoding(String postCharacterEncoding) {
+        this.postCharacterEncoding = postCharacterEncoding;
         return this;
     }
 }

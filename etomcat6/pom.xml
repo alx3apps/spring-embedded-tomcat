@@ -6,11 +6,33 @@
     <parent>
         <groupId>ru.concerteza.spring-embedded-tomcat</groupId>
         <artifactId>spring-embedded-tomcat</artifactId>
-        <version>1.4.3</version>
+        <version>1.4.4-SNAPSHOT</version>
     </parent>
     <artifactId>etomcat6</artifactId>
     <packaging>jar</packaging>
     <name>Apache Tomcat 6 Embedded Into Spring</name>
+
+    <description>Apache Tomcat 6 embedded into Springframework context</description>
+    <url>https://github.com/alx3apps/spring-embedded-tomcat</url>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/alx3apps/spring-embedded-tomcat</url>
+        <connection>scm:git:https://github.com/alx3apps/spring-embedded-tomcat.git</connection>
+        <developerConnection>scm:git:https://github.com/alx3apps/spring-embedded-tomcat.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    <developers>
+        <developer>
+            <name>Alex Kasko (alx3apps)</name>
+            <email>alx3apps@gmail.com</email>
+            <url>http://alexkasko.com</url>
+        </developer>
+    </developers>
 
     <dependencies>
         <!-- tomcat -->
@@ -69,13 +91,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

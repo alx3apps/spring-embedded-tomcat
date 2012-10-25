@@ -30,7 +30,14 @@
         <developer>
             <name>Alex Kasko (alx3apps)</name>
             <email>alx3apps@gmail.com</email>
-            <url>http://alexkasko.com</url>
+            <url>http://alexkasko.com/</url>
+            <organization>Con Certeza LLC</organization>
+            <organizationUrl>http://concerteza.ru/</organizationUrl>
+        </developer>
+        <developer>
+            <name>wmel</name>
+            <organization>Con Certeza LLC</organization>
+            <organizationUrl>http://concerteza.ru/</organizationUrl>
         </developer>
     </developers>
 
@@ -144,7 +151,7 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <passphrase>${gpg.key}</passphrase>
+                            <passphrase>nopwd</passphrase>
                         </configuration>
                     </execution>
                 </executions>

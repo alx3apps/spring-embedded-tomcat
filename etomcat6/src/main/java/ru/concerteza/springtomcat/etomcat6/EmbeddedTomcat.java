@@ -270,6 +270,19 @@ public class EmbeddedTomcat implements ApplicationContextAware {
 		return executor;
     }
 
+    public ExecutorState getInnerExecutorState() {
+        StandardThreadExecutor executorImpl = (StandardThreadExecutor)executor;
+        return new ExecutorState(executorImpl.getMaxIdleTime(),
+                executorImpl.getMaxThreads(),
+                executorImpl.getMinSpareThreads(),
+                executorImpl.getActiveCount(),
+                executorImpl.getCompletedTaskCount(),
+                executorImpl.getCorePoolSize(),
+                executorImpl.getLargestPoolSize(),
+                executorImpl.getPoolSize(),
+                executorImpl.getQueueSize());
+    }
+
     class Paths {
         private final String baseDir;
         private final String confDir;

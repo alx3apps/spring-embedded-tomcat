@@ -206,31 +206,29 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         proto.setOomParachute(nioProps.getOomParachute());
         proto.setUseExecutor(true);
         con.setProperty("useComet", Boolean.toString(connectorProps.isUseComet()));
-        con.setProperty("socket.directBuffer", Boolean.toString(socketProps.isDirectBuffer()));
-        con.setProperty("socket.rxBufSize", Integer.toString(socketProps.getRxBufSizeBytes()));
-        con.setProperty("socket.txBufSize", Integer.toString(socketProps.getTxBufSizeBytes()));
-        con.setProperty("socket.appReadBufSize", Integer.toString(socketProps.getAppReadBufSizeBytes()));
-        con.setProperty("socket.appWriteBufSize", Integer.toString(socketProps.getAppWriteBufSizeBytes()));
-        con.setProperty("socket.bufferPool", Integer.toString(socketProps.getBufferPool()));
-        con.setProperty("socket.bufferPoolSize", Integer.toString(socketProps.getBufferPoolSizeBytes()));
-        con.setProperty("socket.processorCache", Integer.toString(socketProps.getProcessorCache()));
-        con.setProperty("socket.keyCache", Integer.toString(socketProps.getKeyCache()));
-        con.setProperty("socket.eventCache", Integer.toString(socketProps.getEventCache()));
-        con.setProperty("socket.tcpNoDelay", Boolean.toString(socketProps.isTcpNoDelay()));
-        con.setProperty("socket.soKeepAlive", Boolean.toString(socketProps.isSoKeepAlive()));
-        con.setProperty("socket.ooBInline", Boolean.toString(socketProps.isOoBInline()));
-        con.setProperty("socket.soReuseAddress", Boolean.toString(socketProps.isSoReuseAddress()));
-        con.setProperty("socket.soLingerOn", Boolean.toString(socketProps.isSoLingerOn()));
-        con.setProperty("socket.soLingerTime", Integer.toString(socketProps.getSoLingerTimeSec()));
-        con.setProperty("socket.soTimeout", Integer.toString(socketProps.getSoTimeoutMs()));
-        if((0x04 | 0x08 | 0x010) != socketProps.getSoTrafficClass()) {
-            // workaround for windows xp crash for that parameter
-            con.setProperty("socket.soTrafficClass", Integer.toString(socketProps.getSoTrafficClass()));
-        }
-        con.setProperty("socket.performanceConnectionTime", Integer.toString(socketProps.getPerformanceConnectionTime()));
-        con.setProperty("socket.performanceLatency", Integer.toString(socketProps.getPerformanceLatency()));
-        con.setProperty("socket.performanceBandwidth", Integer.toString(socketProps.getPerformanceBandwidth()));
-        con.setProperty("socket.unlockTimeout", Integer.toString(socketProps.getUnlockTimeoutMs()));
+        // made all socket options lazy to prevent crash on winxp
+        if(socketProps.isDirectBuffer()) con.setProperty("socket.directBuffer", Boolean.toString(true));
+        if(25188 != socketProps.getRxBufSizeBytes()) con.setProperty("socket.rxBufSize", Integer.toString(socketProps.getRxBufSizeBytes()));
+        if(43800 != socketProps.getTxBufSizeBytes()) con.setProperty("socket.txBufSize", Integer.toString(socketProps.getTxBufSizeBytes()));
+        if(8192 != socketProps.getAppReadBufSizeBytes()) con.setProperty("socket.appReadBufSize", Integer.toString(socketProps.getAppReadBufSizeBytes()));
+        if(8192 != socketProps.getAppWriteBufSizeBytes()) con.setProperty("socket.appWriteBufSize", Integer.toString(socketProps.getAppWriteBufSizeBytes()));
+        if(500 != socketProps.getBufferPool()) con.setProperty("socket.bufferPool", Integer.toString(socketProps.getBufferPool()));
+        if(104857600 != socketProps.getBufferPoolSizeBytes()) con.setProperty("socket.bufferPoolSize", Integer.toString(socketProps.getBufferPoolSizeBytes()));
+        if(500 != socketProps.getProcessorCache())con.setProperty("socket.processorCache", Integer.toString(socketProps.getProcessorCache()));
+        if(500 != socketProps.getKeyCache()) con.setProperty("socket.keyCache", Integer.toString(socketProps.getKeyCache()));
+        if(500 != socketProps.getEventCache()) con.setProperty("socket.eventCache", Integer.toString(socketProps.getEventCache()));
+        if(socketProps.isTcpNoDelay()) con.setProperty("socket.tcpNoDelay", Boolean.toString(true));
+        if(socketProps.isSoKeepAlive()) con.setProperty("socket.soKeepAlive", Boolean.toString(true));
+        if(!socketProps.isOoBInline()) con.setProperty("socket.ooBInline", Boolean.toString(false));
+        if(!socketProps.isSoReuseAddress()) con.setProperty("socket.soReuseAddress", Boolean.toString(false));
+        if(!socketProps.isSoLingerOn()) con.setProperty("socket.soLingerOn", Boolean.toString(false));
+        if(25 != socketProps.getSoLingerTimeSec())con.setProperty("socket.soLingerTime", Integer.toString(socketProps.getSoLingerTimeSec()));
+        if(5000 != socketProps.getSoTimeoutMs()) con.setProperty("socket.soTimeout", Integer.toString(socketProps.getSoTimeoutMs()));
+        if((0x04 | 0x08 | 0x010) != socketProps.getSoTrafficClass()) con.setProperty("socket.soTrafficClass", Integer.toString(socketProps.getSoTrafficClass()));
+        if(1 != socketProps.getPerformanceConnectionTime()) con.setProperty("socket.performanceConnectionTime", Integer.toString(socketProps.getPerformanceConnectionTime()));
+        if(0 != socketProps.getPerformanceLatency()) con.setProperty("socket.performanceLatency", Integer.toString(socketProps.getPerformanceLatency()));
+        if(1 != socketProps.getPerformanceBandwidth()) con.setProperty("socket.performanceBandwidth", Integer.toString(socketProps.getPerformanceBandwidth()));
+        if(250 != socketProps.getUnlockTimeoutMs())con.setProperty("socket.unlockTimeout", Integer.toString(socketProps.getUnlockTimeoutMs()));
         con.setProperty("selectorPool.maxSelectors", Integer.toString(nioProps.getMaxSelectors()));
         con.setProperty("selectorPool.maxSpareSelectors", Integer.toString(nioProps.getMaxSpareSelectors()));
 

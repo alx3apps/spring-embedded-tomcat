@@ -6,7 +6,7 @@ Apache Tomcat 6 embedded into Spring context as ordinary Spring bean using [Embe
 Problem
 -------
 
-Tomcat is a great and extremly widespread piece of software. It's rock stable, good documented etc.
+Tomcat is a great and extremely widespread piece of software. It's rock stable, good documented etc.
 But it is designed as a __container__ to run __multiple__ web applications. But during my work in most
 projects I participated, container was used to run __one__ __and__ __only__ __one__ application.
 Some of the apps were internet ones, most we intranet (in fact for intranet usually multiple hardware servers

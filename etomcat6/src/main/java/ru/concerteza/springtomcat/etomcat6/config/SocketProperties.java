@@ -1,7 +1,5 @@
 package ru.concerteza.springtomcat.etomcat6.config;
 
-import org.springframework.beans.factory.annotation.Value;
-
 /**
  * User: alexey
  * Date: 11/4/11

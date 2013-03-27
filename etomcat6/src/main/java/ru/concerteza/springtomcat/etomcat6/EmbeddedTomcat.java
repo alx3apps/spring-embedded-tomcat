@@ -223,7 +223,10 @@ public class EmbeddedTomcat implements ApplicationContextAware {
         con.setProperty("socket.soLingerOn", Boolean.toString(socketProps.isSoLingerOn()));
         con.setProperty("socket.soLingerTime", Integer.toString(socketProps.getSoLingerTimeSec()));
         con.setProperty("socket.soTimeout", Integer.toString(socketProps.getSoTimeoutMs()));
-        con.setProperty("socket.soTrafficClass", Integer.toString(socketProps.getSoTrafficClass()));
+        if((0x04 | 0x08 | 0x010) != socketProps.getSoTrafficClass()) {
+            // workaround for windows xp crash for that parameter
+            con.setProperty("socket.soTrafficClass", Integer.toString(socketProps.getSoTrafficClass()));
+        }
         con.setProperty("socket.performanceConnectionTime", Integer.toString(socketProps.getPerformanceConnectionTime()));
         con.setProperty("socket.performanceLatency", Integer.toString(socketProps.getPerformanceLatency()));
         con.setProperty("socket.performanceBandwidth", Integer.toString(socketProps.getPerformanceBandwidth()));

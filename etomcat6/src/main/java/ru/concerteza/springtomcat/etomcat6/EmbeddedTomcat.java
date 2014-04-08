@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import ru.concerteza.springtomcat.etomcat6.config.*;
 import ru.concerteza.springtomcat.etomcat6.context.EmbeddedSpringContext;
+import ru.concerteza.springtomcat.etomcat6.failfast.FailFastConnector;
 import ru.concerteza.springtomcat.etomcat6.valves.PostCharacterEncodingValve;
 
 import java.io.File;
@@ -177,7 +178,11 @@ public class EmbeddedTomcat implements ApplicationContextAware {
     private Connector createConnector(Paths paths) {
         Connector con = null;
         try {
-            con = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+            if(connectorProps.isUseFailFastResponseWriter()) {
+                con = new FailFastConnector("org.apache.coyote.http11.Http11NioProtocol");
+            } else {
+                con = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -22,6 +22,7 @@ public class ConnectorProperties {
     private String server = "Embedded Servlet Container";
     private int socketBufferBytes = 9000;
     private boolean useComet = false;
+    private boolean useFailFastResponseWriter = false;
 
     public boolean isEnableLookups() {
         return enableLookups;
@@ -155,6 +156,15 @@ public class ConnectorProperties {
 
     public ConnectorProperties setUseComet(boolean useComet) {
         this.useComet = useComet;
+        return this;
+    }
+
+    public boolean isUseFailFastResponseWriter() {
+        return useFailFastResponseWriter;
+    }
+
+    public ConnectorProperties setUseFailFastResponseWriter(boolean useFailFastResponseWriter) {
+        this.useFailFastResponseWriter = useFailFastResponseWriter;
         return this;
     }
 }

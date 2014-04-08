@@ -50,9 +50,9 @@
     <properties>
         <project.specification_vendor>Con Certeza LLC</project.specification_vendor>
         <project.implementation_vendor>${project.specification_vendor}</project.implementation_vendor>
-        <tomcat6.version>6.0.37</tomcat6.version>
-        <spring.version>3.2.4.RELEASE</spring.version>
-        <spring.security.version>3.1.4.RELEASE</spring.security.version>
+        <tomcat6.version>6.0.39</tomcat6.version>
+        <spring.version>3.2.8.RELEASE</spring.version>
+        <spring.security.version>3.1.6.RELEASE</spring.security.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

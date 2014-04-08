@@ -8,7 +8,7 @@
     </parent>
     <groupId>ru.concerteza.spring-embedded-tomcat</groupId>
     <artifactId>spring-embedded-tomcat</artifactId>
-    <version>1.4.9</version>
+    <version>1.4.10-SNAPSHOT</version>
     <name>Apache Tomcat Integration With Spring Framework</name>
     <packaging>pom</packaging>
 
@@ -24,7 +24,7 @@
         <url>https://github.com/alx3apps/spring-embedded-tomcat</url>
         <connection>scm:git:https://github.com/alx3apps/spring-embedded-tomcat.git</connection>
         <developerConnection>scm:git:https://github.com/alx3apps/spring-embedded-tomcat.git</developerConnection>
-        <tag>1.4.9</tag>
+        <tag>HEAD</tag>
     </scm>
     <developers>
         <developer>

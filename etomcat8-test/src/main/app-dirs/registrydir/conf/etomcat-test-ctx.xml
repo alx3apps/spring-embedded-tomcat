@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<!-- ETomcat -->
+    <bean id="etomcat" class="ru.concerteza.springtomcat.etomcat8.EmbeddedTomcat" destroy-method="stop" />
+
+    <!-- security -->
+    <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
+        <security:filter-chain-map path-type="ant">
+            <security:filter-chain pattern="/**"
+                                   filters="securityContextPersistenceFilter,
+                                            anonymousAuthenticationFilter,
+                                            remoteIpFilter,
+                                            sessionRegistryFilter,
+                                            exceptionTranslationFilter,
+                                            filterSecurityInterceptor"/>
+        </security:filter-chain-map>
+    </bean>
+
+    <bean id="remoteIpFilter" class="ru.concerteza.springtomcat.components.registry.concurrent.RemoteIpFilter"/>
+
+    <bean id="oneSessionAllowedStrategy" class="ru.concerteza.springtomcat.components.registry.concurrent.OneSessionAllowedStrategy"/>
+    <!-- deliberately NIH version of org.springframework.security.core.session.SessionRegistry -->
+    <bean id="sessionRegistry" class="ru.concerteza.springtomcat.components.registry.SessionRegistry">
+        <property name="concurrentSessionStrategy" ref="oneSessionAllowedStrategy" />
+    </bean>
+    <bean id="sessionRegistryFilter" class="ru.concerteza.springtomcat.components.registry.SessionIdRegistryFilter">
+        <property name="registry" ref="sessionRegistry" />
+    </bean>
+    <bean id="sessionRegistryListener" class="ru.concerteza.springtomcat.components.registry.SessionRegistryListener">
+        <property name="registry" ref="sessionRegistry" />
+    </bean>
+
+    <bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter"/>
+
+    <bean id="anonymousAuthenticationFilter"
+          class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+        <property name="key" value="foobar"/>
+        <property name="userAttribute" value="anonymous,ROLE_ANONYMOUS"/>
+    </bean>
+
+    <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+        <property name="realmName" value="AppName Realm"/>
+    </bean>
+
+    <bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+        <property name="providers">
+            <list>
+                <ref local="anonymousAuthenticationProvider"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="anonymousAuthenticationProvider"
+          class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+        <property name="key" value="foobar"/>
+    </bean>
+
+    <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <property name="authenticationEntryPoint" ref="authenticationEntryPoint"/>
+        <property name="accessDeniedHandler">
+            <bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl"/>
+        </property>
+    </bean>
+
+    <bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <property name="securityMetadataSource">
+            <security:filter-security-metadata-source use-expressions="true">
+                <security:intercept-url pattern="/**" access="permitAll"/>
+            </security:filter-security-metadata-source>
+        </property>
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="accessDecisionManager" ref="accessDecisionManager"/>
+    </bean>
+
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <property name="decisionVoters">
+            <list>
+                <bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <bean class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

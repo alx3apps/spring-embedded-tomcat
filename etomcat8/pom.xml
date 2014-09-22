@@ -6,11 +6,11 @@
         <artifactId>spring-embedded-tomcat</artifactId>
         <version>1.5.0-SNAPSHOT</version>
     </parent>
-    <artifactId>etomcat6</artifactId>
+    <artifactId>etomcat8</artifactId>
     <packaging>jar</packaging>
-    <name>Apache Tomcat 6 Embedded Into Spring</name>
+    <name>Apache Tomcat 8 Embedded Into Spring</name>
 
-    <description>Apache Tomcat 6 embedded into Springframework context</description>
+    <description>Apache Tomcat 8 embedded into Springframework context</description>
     <url>https://github.com/alx3apps/spring-embedded-tomcat</url>
     <licenses>
         <license>
@@ -35,46 +35,16 @@
     <dependencies>
         <!-- tomcat -->
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>coyote</artifactId>
-            <version>${tomcat6.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>juli</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>${tomcat8.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>catalina</artifactId>
-            <version>${tomcat6.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>juli</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>annotations-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-logging-log4j</artifactId>
+            <version>${tomcat8.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${tomcat6.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.extras</groupId>
-            <artifactId>juli</artifactId>
-            <version>${tomcat6.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.extras</groupId>
-            <artifactId>juli-adapters</artifactId>
-            <version>${tomcat6.version}</version>
-        </dependency>
+
         <!-- spring, marked as provided -->
         <dependency>
             <groupId>org.springframework</groupId>

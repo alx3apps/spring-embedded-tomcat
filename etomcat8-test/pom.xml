@@ -6,11 +6,11 @@
         <artifactId>spring-embedded-tomcat</artifactId>
         <version>1.5.0-SNAPSHOT</version>
     </parent>
-    <artifactId>etomcat6-test</artifactId>
+    <artifactId>etomcat8-test</artifactId>
     <packaging>jar</packaging>
-    <name>Embedded Tomcat 6 Tests</name>
+    <name>Embedded Tomcat 8 Tests</name>
 
-    <description>Tests for Apache Tomcat 6 embedded into Springframework context</description>
+    <description>Tests for Apache Tomcat 8 embedded into Springframework context</description>
     <url>https://github.com/alx3apps/spring-embedded-tomcat</url>
     <licenses>
         <license>
@@ -35,7 +35,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>etomcat6</artifactId>
+            <artifactId>etomcat8</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -239,6 +239,12 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
+        </dependency>
+        <!-- jython -->
+        <dependency>
+        	<groupId>org.python</groupId>
+        	<artifactId>jython-standalone</artifactId>
+        	<version>2.7-b3</version>
         </dependency>
         <!-- test -->
         <dependency>

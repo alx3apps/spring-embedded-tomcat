@@ -54,8 +54,8 @@
         <project.implementation_vendor>${project.specification_vendor}</project.implementation_vendor>
         <tomcat6.version>6.0.43</tomcat6.version>
         <tomcat8.version>8.0.15</tomcat8.version>
-        <spring.version>3.2.8.RELEASE</spring.version>
-        <spring.security.version>3.1.6.RELEASE</spring.security.version>
+        <spring.version>3.2.12.RELEASE</spring.version>
+        <spring.security.version>3.1.7.RELEASE</spring.security.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

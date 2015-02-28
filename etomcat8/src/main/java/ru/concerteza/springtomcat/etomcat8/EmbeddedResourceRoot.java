@@ -184,6 +184,10 @@ public class EmbeddedResourceRoot implements WebResourceRoot {
     }
 
     @Override
+    public void gc() {
+    }
+
+    @Override
     public void addLifecycleListener(LifecycleListener listener) {
     }
 

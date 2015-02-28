@@ -3,3 +3,6 @@
 *.ipr
 *.iws
 /*/target
+/target
+/etomcat6-test/src/main/app-dirs/*/work/
+/etomcat8-test/src/main/app-dirs/*/work/

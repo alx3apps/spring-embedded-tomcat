@@ -4,7 +4,7 @@
     <parent>
         <groupId>ru.concerteza.spring-embedded-tomcat</groupId>
         <artifactId>spring-embedded-tomcat</artifactId>
-        <version>1.5.2</version>
+        <version>1.5.3-SNAPSHOT</version>
     </parent>
     <artifactId>etomcat6-test</artifactId>
     <packaging>jar</packaging>
@@ -22,7 +22,7 @@
         <url>https://github.com/alx3apps/spring-embedded-tomcat</url>
         <connection>scm:git:https://github.com/alx3apps/spring-embedded-tomcat.git</connection>
         <developerConnection>scm:git:https://github.com/alx3apps/spring-embedded-tomcat.git</developerConnection>
-        <tag>1.5.2</tag>
+        <tag>HEAD</tag>
     </scm>
     <developers>
         <developer>
